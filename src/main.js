@@ -322,53 +322,23 @@ function setupScroll() {
     }
   });
 
-  // Season — horizontal on desktop, stacked on mobile
-  mm.add('(min-width: 1000px)', () => {
-    const season = $('.season');
-    season.classList.add('season--h');
-    const trackEl = $('#seasonTrack');
-    const dist = () => (trackEl.children.length - 1) * window.innerWidth;
-    const tween = gsap.to(trackEl, {
-      x: () => dist(), // RTL: content overflows to the left, so we move right
-      ease: 'none',
-      scrollTrigger: {
-        trigger: '.season__pin', pin: true, start: 'top top', end: () => `+=${dist()}`,
-        scrub: 0.6, invalidateOnRefresh: true, anticipatePin: 1,
-        snap: { snapTo: 1 / (CONCERTS.length - 1), duration: { min: 0.2, max: 0.6 }, ease: 'power2.inOut', delay: 0.05 },
-        onUpdate: (self) => gsap.set('.season__progress span', { scaleX: self.progress }),
-      },
+  // Season — one concert after another, animated on normal vertical scroll
+  $$('.concert').forEach((c) => {
+    const parts = c.querySelectorAll('.concert__disc, .concert__title, .concert__tag, .concert__meta, .concert__people, .concert__actions');
+    gsap.from(parts, {
+      y: 36, autoAlpha: 0, stagger: 0.07, duration: 1, ease: 'expo.out',
+      scrollTrigger: { trigger: c, start: 'top 80%', once: true },
     });
-    $$('.concert').forEach((c) => {
-      const st = { trigger: c, containerAnimation: tween, start: 'left 85%', end: 'right 15%', scrub: true };
-      gsap.fromTo(c.querySelector('.concert__media img'), { scale: 1.25, xPercent: 8 }, { scale: 1.05, xPercent: -8, ease: 'none', scrollTrigger: st });
-      gsap.fromTo(c.querySelector('.concert__num'), { xPercent: -40 }, { xPercent: 40, ease: 'none', scrollTrigger: st });
-      gsap.from(c.querySelectorAll('.concert__disc, .concert__title, .concert__tag, .concert__meta, .concert__people, .concert__actions'), {
-        y: 40, autoAlpha: 0, stagger: 0.07, duration: 1, ease: 'expo.out',
-        scrollTrigger: { trigger: c, containerAnimation: tween, start: 'left 60%' },
-      });
-      gsap.from(c.querySelector('.concert__ring'), { rotate: -120, scale: 0.4, autoAlpha: 0, duration: 1.6, ease: 'expo.out', scrollTrigger: { trigger: c, containerAnimation: tween, start: 'left 70%' } });
+    gsap.from(c.querySelector('.concert__media'), {
+      y: 60, autoAlpha: 0, duration: 1.4, ease: 'expo.out',
+      scrollTrigger: { trigger: c, start: 'top 85%', once: true },
     });
-    // keyboard users: bring the focused concert panel into view
-    const onFocus = (e) => {
-      const c = e.target.closest('.concert');
-      if (!c) return;
-      const i = [...trackEl.children].indexOf(c);
-      const st = tween.scrollTrigger;
-      const y = st.start + (st.end - st.start) * (i / (CONCERTS.length - 1));
-      if (lenis) lenis.scrollTo(y, { immediate: true }); else window.scrollTo(0, y);
-    };
-    trackEl.addEventListener('focusin', onFocus);
-    return () => { season.classList.remove('season--h'); trackEl.removeEventListener('focusin', onFocus); };
-  });
-  mm.add('(max-width: 999px)', () => {
-    $$('.concert').forEach((c) => {
-      gsap.fromTo(c.querySelector('.concert__media'), { clipPath: 'inset(18% 10% 18% 10%)' }, {
-        clipPath: 'inset(0% 0% 0% 0%)', ease: 'none', scrollTrigger: { trigger: c, start: 'top 95%', end: 'top 35%', scrub: true },
-      });
-      gsap.fromTo(c.querySelector('.concert__media img'), { scale: 1.3 }, { scale: 1, ease: 'none', scrollTrigger: { trigger: c, start: 'top bottom', end: 'bottom top', scrub: true } });
-      gsap.from(c.querySelectorAll('.concert__disc, .concert__title, .concert__tag, .concert__meta, .concert__people, .concert__actions'), {
-        y: 30, autoAlpha: 0, stagger: 0.06, duration: 0.9, ease: 'expo.out', scrollTrigger: { trigger: c.querySelector('.concert__body'), start: 'top 88%' },
-      });
+    gsap.from(c.querySelector('.concert__ring'), {
+      rotate: -120, scale: 0.4, autoAlpha: 0, duration: 1.6, ease: 'expo.out',
+      scrollTrigger: { trigger: c, start: 'top 75%', once: true },
+    });
+    gsap.fromTo(c.querySelector('.concert__num'), { yPercent: 30 }, {
+      yPercent: -30, ease: 'none', scrollTrigger: { trigger: c, start: 'top bottom', end: 'bottom top', scrub: true },
     });
   });
 

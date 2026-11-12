@@ -272,7 +272,7 @@ h1, h2, h3, h4,
   --c: var(--red);
   position: relative; display: block; text-decoration: none; aspect-ratio: 3 / 4; max-height: 74svh; justify-self: center; width: 100%; max-width: 440px;
 }
-.hero__next-media { position: absolute; inset: 0; overflow: hidden; -webkit-mask-image: radial-gradient(ellipse 55% 52% at 50% 44%, #000 60%, transparent 100%); mask-image: radial-gradient(ellipse 55% 52% at 50% 44%, #000 60%, transparent 100%); }
+.hero__next-media { position: absolute; inset: 0; overflow: hidden; }
 .hero__next-media img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; transform: scale(1.15); }
 .hero__next-badge {
   position: absolute; top: 8%; inset-inline-start: -8%; z-index: 2;
@@ -420,9 +420,6 @@ h1, h2, h3, h4,
 .season__disc { display: block; font-family: var(--f-serif); font-weight: 400; font-size: .32em; letter-spacing: .4em; color: var(--red); margin-bottom: .8em; }
 .season__desc { margin: 0; font-size: 1.1rem; max-width: 46ch; }
 
-.season__pin { position: relative; }
-.season__progress { position: absolute; z-index: 3; bottom: 26px; inset-inline: var(--gutter); height: 1px; background: var(--line); display: none; }
-.season__progress span { position: absolute; inset-block: 0; right: 0; width: 100%; background: var(--ink); transform: scaleX(0); transform-origin: right; }
 .season__track { list-style: none; margin: 0; padding: 0 var(--gutter) clamp(60px, 8vw, 120px); display: grid; gap: clamp(50px, 8vw, 90px); }
 
 .concert {
@@ -431,10 +428,9 @@ h1, h2, h3, h4,
 }
 .concert__media {
   position: relative; aspect-ratio: 4 / 5; overflow: hidden; cursor: pointer;
-  -webkit-mask-image: radial-gradient(ellipse 52% 52% at 50% 46%, #000 58%, transparent 100%); mask-image: radial-gradient(ellipse 52% 52% at 50% 46%, #000 58%, transparent 100%);
   border-radius: 2px;
 }
-.concert__media img { width: 100%; height: 100%; object-fit: cover; object-position: center 30%; transform-origin: center; transition: transform 1.2s var(--ease); }
+.concert__media img { width: 100%; height: 100%; object-fit: contain; object-position: center; transform-origin: center; transition: transform 1.2s var(--ease); }
 .concert__media:hover img { transform: scale(1.05); }
 .concert__dot { position: absolute; width: 14px; height: 14px; border-radius: 50%; background: var(--c); top: 9%; inset-inline-start: 9%; z-index: 2; }
 .concert__ring { position: absolute; width: 46%; aspect-ratio: 1; border-radius: 50%; border: 1px dashed var(--c); top: 4%; inset-inline-end: -6%; z-index: 2; opacity: .7; }
@@ -458,22 +454,6 @@ h1, h2, h3, h4,
 .concert .btn--line { --hover-bg: var(--c); }
 .concert__past { display: inline-flex; align-items: center; gap: 8px; font-size: .85rem; padding: .5em 1em; border: 1px solid var(--line); border-radius: 999px; color: var(--muted); }
 
-/* desktop horizontal season */
-@media (min-width: 1000px) {
-  .season--h .season__pin { height: 100vh; overflow: hidden; }
-  .season--h .season__progress { display: block; }
-  .season--h .season__track {
-    display: flex; gap: 0; height: 100%; width: max-content; padding: 0; will-change: transform;
-  }
-  .season--h .concert {
-    width: 100vw; height: 100vh; padding: calc(var(--header-h) + 20px) var(--gutter) 70px;
-    grid-template-columns: minmax(0, .95fr) minmax(0, 1fr); background: transparent;
-  }
-  .season--h .concert__media { height: min(72vh, 760px); aspect-ratio: 4 / 5; justify-self: center; width: auto; }
-  .season--h .concert::before {
-    content: ''; position: absolute; inset: 0; z-index: -1; background: radial-gradient(ellipse at 30% 50%, var(--t), transparent 65%); opacity: .9;
-  }
-}
 @media (max-width: 999px) {
   .concert { grid-template-columns: 1fr; }
   .concert__media { aspect-ratio: 4 / 4.4; }
@@ -687,3 +667,14 @@ html.a11y-still .hero__strings { display: none; }
    ========================================================= */
 button, .btn, .btn::before, .intro__btn, .sound-toggle, .burger, .socials a, .concert__past,
 .concert-dialog__close, .a11y-fab, .a11y-panel, .a11y-panel button, .skip-link { border-radius: 0 !important; }
+
+/* =========================================================
+   Season — vertical layout (all screens)
+   ========================================================= */
+.season__track { gap: clamp(70px, 10vw, 150px); }
+@media (min-width: 1000px) {
+  .concert { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); min-height: min(86vh, 860px); }
+  .concert__media { aspect-ratio: auto; height: min(78vh, 760px); }
+  .concert:nth-child(even) .concert__media { order: 2; }
+  .concert:nth-child(even) .concert__num { inset-inline-end: auto; inset-inline-start: 0; }
+}
