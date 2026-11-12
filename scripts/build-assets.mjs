@@ -3,20 +3,14 @@ import sharp from 'sharp';
 import fs from 'fs';
 const I = 'images/';
 const jobs = {
-  'love-hero': I + 'ככה נשמעת אהבה/ChatGPT Image Jul 30, 2026 at 12_31_55 PM.png',
   'love-alt': I + 'ככה נשמעת אהבה/ChatGPT Image Jul 30, 2026 at 12_26_03 PM.png',
   'love-poster': I + 'ככה נשמעת אהבה/ככה נשמעת אהבה-3.png',
-  'ravel-hero': I + 'שירים של ראוול/ChatGPT Image Jul 30, 2026 at 01_38_30 PM.png',
   'ravel-alt': I + 'שירים של ראוול/ChatGPT Image Jul 30, 2026 at 01_52_58 PM.png',
   'ravel-poster': I + 'שירים של ראוול/שירים של ראוול-3.png',
-  'light-hero': I + 'עם אור ראשון/ChatGPT Image Aug 2, 2026 at 05_25_58 PM.png',
   'light-poster': I + 'עם אור ראשון/עם אור ראשון-3.png',
-  'mosaic-hero': I + 'פסיפס/ChatGPT Image Aug 2, 2026 at 05_04_32 PM.png',
   'mosaic-wide': I + 'פסיפס/ChatGPT Image Aug 2, 2026 at 05_12_45 PM.png',
   'mosaic-poster': I + 'פסיפס/פסיפס-3.png',
-  'cave-hero': I + 'המערה/ChatGPT Image Aug 4, 2026 at 04_28_57 PM.png',
   'cave-poster': I + 'המערה/המערה-3.png',
-  'paint-hero': I + 'ציור בצלילים/ChatGPT Image Aug 4, 2026 at 04_46_10 PM.png',
   'paint-poster': I + 'ציור בצלילים/ציור בצלילים ורגשות-3.png',
   'subs-red': I + 'פרסום מנויים/ChatGPT Image Aug 24, 2026 at 12_48_24 PM.png',
   'subs-purple': I + 'פרסום מנויים/ChatGPT Image Aug 24, 2026 at 01_00_26 PM.png',

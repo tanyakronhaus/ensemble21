@@ -6,12 +6,12 @@ from PIL import Image
 
 I = 'images/'
 JOBS = {
-    'love-hero': I + 'ככה נשמעת אהבה/ChatGPT Image Jul 30, 2026 at 12_31_55 PM.png',
-    'ravel-hero': I + 'שירים של ראוול/ChatGPT Image Jul 30, 2026 at 01_38_30 PM.png',
-    'light-hero': I + 'עם אור ראשון/ChatGPT Image Aug 2, 2026 at 05_25_58 PM.png',
-    'mosaic-hero': I + 'פסיפס/ChatGPT Image Aug 2, 2026 at 05_04_32 PM.png',
-    'cave-hero': I + 'המערה/ChatGPT Image Aug 4, 2026 at 04_28_57 PM.png',
-    'paint-hero': I + 'ציור בצלילים/ChatGPT Image Aug 4, 2026 at 04_46_10 PM.png',
+    'love-cut': I + 'ככה נשמעת אהבה/ChatGPT Image Jul 30, 2026 at 12_31_55 PM.png',
+    'ravel-cut': I + 'שירים של ראוול/ChatGPT Image Jul 30, 2026 at 01_38_30 PM.png',
+    'light-cut': I + 'עם אור ראשון/ChatGPT Image Aug 2, 2026 at 05_25_58 PM.png',
+    'mosaic-cut': I + 'פסיפס/ChatGPT Image Aug 2, 2026 at 05_04_32 PM.png',
+    'cave-cut': I + 'המערה/ChatGPT Image Aug 4, 2026 at 04_28_57 PM.png',
+    'paint-cut': I + 'ציור בצלילים/ChatGPT Image Aug 4, 2026 at 04_46_10 PM.png',
 }
 
 def white_to_alpha(im):
