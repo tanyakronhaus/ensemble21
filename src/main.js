@@ -6,6 +6,7 @@ import '@fontsource/heebo/800.css';
 import '@fontsource/heebo/900.css';
 import '@fontsource/frank-ruhl-libre/400.css';
 import '@fontsource/frank-ruhl-libre/500.css';
+import '@fontsource/noto-music/400.css';
 import './styles.css';
 
 import gsap from 'gsap';
@@ -17,6 +18,7 @@ import { LOGO_PATH, LOGO_VIEWBOX } from './logo-path.js';
 import { createIntro } from './intro.js';
 import { createStrings } from './strings.js';
 import { createAudio } from './audio.js';
+import { renderScore } from './score.js';
 import { initA11y, applyStoredA11y } from './a11y.js';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -290,17 +292,32 @@ function setupScroll() {
   gsap.to('.hero__title', { yPercent: 18, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
   gsap.to('.hero__circle--a', { rotate: 90, yPercent: 20, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
 
-  // Marquee — speeds up with scroll velocity, direction follows scroll
-  const track = $('.marquee__track');
-  track.innerHTML += track.innerHTML;
-  const loop = gsap.to(track, { xPercent: -50, duration: 28, ease: 'none', repeat: -1 });
+  // Running score — notes glide past a playhead; scrolling pushes the tempo
+  const scoreTrack = $('#scoreTrack');
+  const { width: scoreW } = renderScore(scoreTrack);
+  const notes = $$('.n', scoreTrack).map((el, i, all) => ({ el, x: Number(el.dataset.x) + (i >= all.length / 2 ? scoreW : 0), lit: false }));
+  const viewport = $('.score__viewport');
+  let offset = 0, boost = 0, scoreVisible = false;
+  new IntersectionObserver(([e]) => (scoreVisible = e.isIntersecting)).observe(viewport);
   ScrollTrigger.create({
-    trigger: '.marquee', start: 'top bottom', end: 'bottom top',
-    onUpdate: (self) => {
-      const v = self.getVelocity() / 300;
-      gsap.to(loop, { timeScale: Math.max(-6, Math.min(6, 1 + v)) * (v < 0 ? -1 : 1) || 1, duration: 0.2, overwrite: true });
-      gsap.to(loop, { timeScale: 1, duration: 1.2, delay: 0.25, overwrite: false });
-    },
+    trigger: '.score', start: 'top bottom', end: 'bottom top',
+    onUpdate: (self) => { boost = Math.max(-400, Math.min(900, self.getVelocity() * 0.6)); },
+  });
+  gsap.ticker.add((time, dt) => {
+    if (!scoreVisible) return;
+    const speed = isStill() ? 0 : 70 + boost;
+    boost *= 0.94;
+    const scale = scoreTrack.firstElementChild.getBoundingClientRect().width / scoreW;
+    const loopPx = scoreW * scale;
+    offset = (offset + (speed * dt) / 1000) % loopPx;
+    if (offset < 0) offset += loopPx;
+    scoreTrack.style.transform = `translate3d(${-offset}px,0,0)`;
+    const play = viewport.clientWidth / 2;
+    for (const n of notes) {
+      const sx = n.x * scale - offset;
+      const lit = Math.abs(sx - play) < 34 * scale;
+      if (lit !== n.lit) { n.el.classList.toggle('is-lit', lit); n.lit = lit; }
+    }
   });
 
   // Season — horizontal on desktop, stacked on mobile

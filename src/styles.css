@@ -92,7 +92,7 @@ main:focus { outline: none; }
 h1, h2, h3, h4,
 .hero__title, .hero__21, .section-head__title, .about__statement, .director__name, .musicians__title,
 .season__big, .concert__title, .subs__title, .subs__title span, .contact__big, .mobile-menu nav a,
-.hero__next-info h2, .doc__body h2, .marquee__track span, .musician__name {
+.hero__next-info h2, .doc__body h2, .musician__name {
   font-family: var(--f-display);
   font-weight: 400;
   font-synthesis: none;
@@ -264,7 +264,7 @@ h1, h2, h3, h4,
 }
 .hero__title .line { display: block; overflow: hidden; padding-bottom: .06em; }
 .hero__title .split { display: inline-block; }
-.hero__21 { font-family: var(--f-serif); font-weight: 400; color: var(--red); font-size: .92em; }
+.hero__21 { color: var(--red); }
 .hero__lead { font-size: clamp(1.05rem, 1.6vw, 1.35rem); max-width: 36ch; margin: 0 0 30px; }
 .hero__ctas { display: flex; gap: 12px; flex-wrap: wrap; }
 
@@ -312,11 +312,36 @@ h1, h2, h3, h4,
 /* =========================================================
    MARQUEE
    ========================================================= */
-.marquee { overflow: hidden; border-block: 1px solid var(--ink); padding: 18px 0; background: var(--ink); color: var(--paper); direction: ltr; }
-.marquee__track { display: flex; width: max-content; gap: 40px; align-items: center; white-space: nowrap; will-change: transform; }
-.marquee__track span { font-size: clamp(1.8rem, 4.5vw, 3.6rem); font-weight: 800; line-height: 1; }
-.marquee__track span:nth-of-type(odd) { font-family: var(--f-serif); font-weight: 400; font-style: italic; }
-.marquee__track b { color: var(--red); font-size: 1.4rem; }
+.score { margin: 0; position: relative; padding: clamp(28px, 4vw, 48px) 0 18px; border-block: 1px solid var(--line); background: var(--paper-2); overflow: hidden; direction: ltr; }
+.score__viewport { position: relative; overflow: hidden; -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
+.score__track { display: flex; width: max-content; will-change: transform; }
+.score__svg { height: clamp(150px, 18vw, 230px); width: auto; flex: none; overflow: visible; }
+.score__svg .sl { stroke: var(--ink); stroke-opacity: .35; stroke-width: 1; }
+.score__svg .ll, .score__svg .stem { stroke: var(--ink); stroke-width: 1.3; }
+.score__svg .bar { stroke: var(--ink); stroke-opacity: .55; stroke-width: 1.2; }
+.score__svg .nh { fill: var(--ink); stroke: var(--ink); stroke-width: 1; }
+.score__svg .nh--open { fill: var(--paper-2); stroke-width: 2.2; }
+.score__svg .dot { fill: var(--ink); }
+.score__svg .tie { fill: none; stroke: var(--ink); stroke-width: 1.4; }
+.score__svg .glyph { font-family: 'Noto Music', serif; fill: var(--ink); }
+.score__svg .clef { font-size: 58px; }
+.score__svg .clef--f { font-size: 44px; }
+.score__svg .acc { font-size: 30px; }
+.score__svg .time { font-size: 30px; font-family: var(--f-serif); font-weight: 500; }
+.score__svg .rest { font-size: 34px; }
+.score__svg .barno { font-size: 11px; fill: var(--muted); font-family: var(--f-serif); font-style: italic; }
+.score__svg .n { transition: transform .5s var(--ease); transform-box: fill-box; transform-origin: center; }
+.score__svg .n * { transition: fill .2s, stroke .2s; }
+.score__svg .n.is-lit { transform: scale(1.18); }
+.score__svg .n.is-lit .nh, .score__svg .n.is-lit .dot { fill: var(--red); stroke: var(--red); }
+.score__svg .n.is-lit .nh--open { fill: var(--paper-2); }
+.score__svg .n.is-lit .stem, .score__svg .n.is-lit .ll { stroke: var(--red); }
+.score__playhead { position: absolute; top: 0; bottom: 0; left: 50%; width: 1px; background: var(--red); opacity: .7; }
+.score__playhead::before, .score__playhead::after { content: ''; position: absolute; left: -4px; width: 9px; height: 9px; border-radius: 50%; background: var(--red); }
+.score__playhead::before { top: -2px; } .score__playhead::after { bottom: -2px; }
+.score__caption { display: flex; justify-content: space-between; gap: 6px 20px; flex-wrap: wrap; padding: 14px var(--gutter) 0; font-size: .82rem; color: var(--muted); }
+.score__caption span:last-child { direction: rtl; }
+.score__caption em { font-family: var(--f-serif); }
 
 /* =========================================================
    SECTION HEADS
