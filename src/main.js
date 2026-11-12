@@ -18,7 +18,7 @@ import { LOGO_PATH, LOGO_VIEWBOX } from './logo-path.js';
 import { createIntro } from './intro.js';
 import { createStrings } from './strings.js';
 import { createAudio } from './audio.js';
-import { renderScore } from './score.js';
+import { renderScore, COPIES } from './score.js';
 import { initA11y, applyStoredA11y } from './a11y.js';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -295,7 +295,9 @@ function setupScroll() {
   // Running score — notes glide past a playhead; scrolling pushes the tempo
   const scoreTrack = $('#scoreTrack');
   const { width: scoreW } = renderScore(scoreTrack);
-  const notes = $$('.n', scoreTrack).map((el, i, all) => ({ el, x: Number(el.dataset.x) + (i >= all.length / 2 ? scoreW : 0), lit: false }));
+  const allNotes = $$('.n', scoreTrack);
+  const perCopy = allNotes.length / COPIES;
+  const notes = allNotes.map((el, i) => ({ el, x: Number(el.dataset.x) + Math.floor(i / perCopy) * scoreW, lit: false }));
   const viewport = $('.score__viewport');
   let offset = 0, boost = 0, scoreVisible = false;
   new IntersectionObserver(([e]) => (scoreVisible = e.isIntersecting)).observe(viewport);

@@ -108,10 +108,12 @@ function system(offsetBars = 0) {
   return { svg: s, width };
 }
 
+export const COPIES = 6;
+
 export function renderScore(container) {
   const a = system(0);
   const H = 285;
   const one = `<svg class="score__svg" viewBox="0 -10 ${a.width} ${H}" width="${a.width}" height="${H}" aria-hidden="true" focusable="false">${a.svg}</svg>`;
-  container.innerHTML = one + one; // duplicated for a seamless loop
+  container.innerHTML = one.repeat(COPIES); // repeated so the strip always fills the screen
   return { width: a.width };
 }
