@@ -1,0 +1,425 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>אנסמבל המאה ה־21 | Israel Contemporary Players</title>
+  <meta name="description" content="אנסמבל המאה ה־21 — הגוף המוביל בישראל לביצוע מוזיקה עכשווית. העונה ה־36: תגליות — מסע של 6 קונצרטים באולם צוקר, היכל התרבות תל אביב." />
+  <meta name="theme-color" content="#f3eee6" />
+  <meta property="og:title" content="אנסמבל המאה ה־21 · העונה ה־36 · תגליות" />
+  <meta property="og:description" content="מוזיקה קלאסית חדשה ופורצת גבולות. מסע של 6 קונצרטים בהיכל התרבות תל אביב." />
+  <meta property="og:image" content="/media/og.jpg" />
+  <meta property="og:type" content="website" />
+  <link rel="icon" href="/media/favicon.svg" type="image/svg+xml" />
+  <link rel="preload" href="/media/ravel-hero-1400.webp" as="image" />
+</head>
+<body class="is-loading">
+  <a class="skip-link" href="#main">דילוג לתוכן המרכזי</a>
+
+  <!-- ============ INTRO ============ -->
+  <div id="intro" class="intro" aria-hidden="false" role="dialog" aria-label="פתיח">
+    <canvas class="intro__canvas" aria-hidden="true"></canvas>
+    <div class="intro__ui">
+      <div class="intro__top">
+        <span class="intro__meta" data-intro-reveal>Israel Contemporary Players</span>
+        <span class="intro__meta intro__counter" data-intro-reveal><span id="introCount">1991</span></span>
+      </div>
+      <div class="intro__center">
+        <p class="intro__kicker" data-intro-reveal>העונה ה־36 · DISCOVERIES</p>
+        <h1 class="intro__title" data-intro-reveal>
+          <span class="intro__title-line">אנסמבל המאה ה־21</span>
+        </h1>
+      </div>
+      <div class="intro__actions" data-intro-actions>
+        <button class="intro__btn intro__btn--sound" type="button" data-enter="sound">
+          <span class="intro__btn-wave" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></span>
+          <span>כניסה עם צליל</span>
+        </button>
+        <button class="intro__btn intro__btn--quiet" type="button" data-enter="quiet">כניסה בשקט</button>
+      </div>
+      <p class="intro__hint" data-intro-reveal>ברקע: יוסי מר־חיים · Phoenix</p>
+    </div>
+  </div>
+
+  <!-- ============ CURSOR ============ -->
+  <div class="cursor" aria-hidden="true"><span class="cursor__dot"></span><span class="cursor__ring"></span><span class="cursor__label"></span></div>
+
+  <!-- ============ HEADER ============ -->
+  <header class="site-header" id="top">
+    <a class="brand" href="#main" aria-label="אנסמבל המאה ה־21 — לראש העמוד">
+      <svg class="brand__mark" data-logo aria-hidden="true"></svg>
+      <span class="brand__text">
+        <span class="brand__he">אנסמבל המאה ה־21</span>
+        <span class="brand__en">Israel Contemporary Players</span>
+      </span>
+    </a>
+    <nav class="nav" aria-label="ניווט ראשי">
+      <ul class="nav__list">
+        <li><a href="#about" data-nav>אודות</a></li>
+        <li><a href="#season" data-nav>העונה ה־36</a></li>
+        <li><a href="#tickets" data-nav>כרטיסים</a></li>
+        <li><a href="#contact" data-nav>צור קשר</a></li>
+      </ul>
+    </nav>
+    <div class="header-tools">
+      <button class="sound-toggle" type="button" aria-pressed="false" aria-label="הפעלת מוזיקה ברקע">
+        <span class="sound-toggle__bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="sound-toggle__label">צליל</span>
+      </button>
+      <a class="btn btn--ink header-cta" href="#tickets">כרטיסים</a>
+      <button class="burger" type="button" aria-expanded="false" aria-controls="mobileMenu" aria-label="פתיחת תפריט">
+        <span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <div class="mobile-menu" id="mobileMenu" hidden>
+    <nav aria-label="תפריט נייד">
+      <ul>
+        <li><a href="#about" data-nav><small>01</small>אודות</a></li>
+        <li><a href="#season" data-nav><small>02</small>העונה ה־36</a></li>
+        <li><a href="#tickets" data-nav><small>03</small>כרטיסים</a></li>
+        <li><a href="#contact" data-nav><small>04</small>צור קשר</a></li>
+        <li><a href="/accessibility.html"><small>05</small>הצהרת נגישות</a></li>
+      </ul>
+    </nav>
+    <div class="mobile-menu__foot">
+      <a href="https://wa.me/972535554072" target="_blank" rel="noopener">WhatsApp</a>
+      <a href="mailto:info.ens21@gmail.com">info.ens21@gmail.com</a>
+    </div>
+  </div>
+
+  <main id="main" tabindex="-1">
+    <!-- ============ HERO ============ -->
+    <section class="hero" aria-labelledby="heroTitle">
+      <canvas class="hero__strings" aria-hidden="true"></canvas>
+      <div class="hero__circle hero__circle--a" aria-hidden="true"></div>
+      <div class="hero__circle hero__circle--b" aria-hidden="true"></div>
+      <div class="hero__inner">
+        <div class="hero__text">
+          <p class="eyebrow" data-reveal>Israel Contemporary Players · מאז 1991</p>
+          <h1 class="hero__title" id="heroTitle">
+            <span class="line"><span class="split">אנסמבל</span></span>
+            <span class="line"><span class="split">המאה</span> <span class="split hero__21">ה־21</span></span>
+          </h1>
+          <p class="hero__lead" data-reveal>
+            הדור החדש של המוזיקה הקלאסית. <br class="br-desk" />
+            העונה ה־36: <strong>תגליות</strong> — מסע של 6 קונצרטים באולם צוקר, היכל התרבות תל אביב.
+          </p>
+          <div class="hero__ctas" data-reveal>
+            <a class="btn btn--ink btn--lg" href="#season" data-magnetic><span>לעונה ה־36</span></a>
+            <a class="btn btn--line btn--lg" href="#tickets" data-magnetic><span>מנוי ל־6 קונצרטים · 570 ₪</span></a>
+          </div>
+        </div>
+        <a class="hero__next" id="heroNext" href="#season" data-cursor="לקונצרט">
+          <!-- filled by JS: next upcoming concert -->
+        </a>
+      </div>
+      <div class="hero__scroll" aria-hidden="true"><span>גללו</span><i></i></div>
+    </section>
+
+    <!-- ============ MARQUEE ============ -->
+    <div class="marquee" aria-hidden="true">
+      <div class="marquee__track">
+        <span>DISCOVERIES</span><b>✕</b><span>תגליות</span><b>✕</b><span>מוזיקה עכשווית</span><b>✕</b><span>Contemporary Players</span><b>✕</b><span>העונה ה־36</span><b>✕</b><span>בכורות עולמיות</span><b>✕</b>
+      </div>
+    </div>
+
+    <!-- ============ ABOUT ============ -->
+    <section class="about section" id="about" aria-labelledby="aboutTitle">
+      <div class="section-head">
+        <span class="section-head__no">01</span>
+        <h2 class="section-head__title" id="aboutTitle">אודות</h2>
+        <span class="section-head__line" aria-hidden="true"></span>
+      </div>
+
+      <p class="about__statement" data-words>
+        אנסמבל המאה ה־21 נוסד ב־1991 והוא נחשב לגוף המוביל בארץ בכל הנוגע לביצוע מוזיקה עכשווית.
+        מאז הקמתו ביצע את כל היצירות ה״קלאסיות״ של המאה ה־20 לצד היצירות העכשוויות ביותר.
+      </p>
+
+      <div class="about__grid">
+        <div class="about__body" data-reveal>
+          <p>
+            אנסמבל המאה ה־21 זוכה להערכה בינלאומית, והוא מוזמן לסיורי קונצרטים במרכזי המוזיקה בעולם.
+            במשך שנות קיומו חולל האנסמבל מהפכה ברמת הביצוע של מוזיקה עכשווית בארץ — הזמין, ביצע, הקליט ושידר
+            מוזיקה עכשווית וישראלית בביצוע המנצחים והסולנים מהטובים בעולם, ובכך הביא אל הקהל הישראלי את המתרחש כיום
+            בשטח היצירה ברמה הגבוהה ביותר.
+          </p>
+          <p>
+            האנסמבל קיבל באופן קבוע ציון ״מצוין״ בדירוג מנהל התרבות וזכה בפרס לנדאו של מפעל הפיס.
+            סדרת הקונצרטים <strong>״תגליות״</strong> של האנסמבל מבוצעת באופן קבוע באולם צוקר, היכל התרבות תל אביב.
+          </p>
+          <p class="muted">אנסמבל המאה ה־21 נתמך ע״י מנהל התרבות במשרד התרבות ועיריית תל אביב־יפו.</p>
+        </div>
+        <ul class="stats" aria-label="במספרים">
+          <li class="stat" data-reveal><span class="stat__num" data-count="1991">1991</span><span class="stat__label">שנת הייסוד</span></li>
+          <li class="stat" data-reveal><span class="stat__num" data-count="36">36</span><span class="stat__label">עונות קונצרטים</span></li>
+          <li class="stat" data-reveal><span class="stat__num" data-count="17">17</span><span class="stat__label">מוזיקאים</span></li>
+          <li class="stat" data-reveal><span class="stat__num" data-count="6">6</span><span class="stat__label">קונצרטים בעונה</span></li>
+        </ul>
+      </div>
+
+      <article class="director" data-reveal>
+        <div class="director__head">
+          <span class="eyebrow">מנהל אמנותי ומייסד</span>
+          <h3 class="director__name">דן יוהס</h3>
+        </div>
+        <div class="director__body">
+          <p>
+            דן יוהס סיים לימודי פסנתר וקומפוזיציה באקדמיה למוזיקה בתל אביב בשנת 1968 בהדרכתם של מרדכי סתר, אלכסנדר אוריה בוסקוביץ׳ ועדן פרטוש.
+            בשנים 1973–4 למד מוזיקה אלקטרונית וקומפוזיציה בבית הספר למוזיקה ״גילדהול״ בלונדון. מאז שנות ה־70 מבוצעות יצירותיו הקאמריות והתזמורתיות
+            ע״י מיטב הגופים המבצעים בארץ ובעולם, ביניהם התזמורת הפילהרמונית הישראלית, התזמורת הסימפונית ירושלים, התזמורת הקאמרית הישראלית,
+            רביעיית ארדיטי, סולני שטוטגרט ואנסמבל מודרן.
+          </p>
+          <div class="director__more" id="directorMore" hidden>
+            <p>
+              יוהס זכה פעמיים בפרס אקו״ם ליצירה המוגשת בעילום שם (1987, 2001). ב־1988 קיבל את פרס ראש הממשלה למלחינים, וב־1998 הוענק לו פרס ליברסון
+              עבור יצירתו ״אלגיה״ לתזמורת. בשנת 2007 זכה בפרס אקו״ם על מפעל חיים ובפרס רוזנבלום לאמנות מטעם עיריית תל אביב. בשנת 2008 זכה בפרס
+              היוקרתי למלחינים מטעם קרן קוסביצקי וספריית הקונגרס בוושינגטון. בשנת 2009 קיבל את פרס לנדאו מטעם מפעל הפיס ובאותה שנה זכה בפעם השנייה
+              בפרס ראש הממשלה. בשנת 1991 הקים יוהס את אנסמבל המאה ה־21, וב־2001 הקים ביפו את ״התיבה״ — המרכז למוזיקה ואמנות עכשווית.
+            </p>
+          </div>
+          <button class="link-btn" type="button" aria-expanded="false" aria-controls="directorMore" data-more>קראו עוד</button>
+        </div>
+      </article>
+
+      <div class="musicians">
+        <div class="musicians__head" data-reveal>
+          <h3 class="musicians__title">המוזיקאים</h3>
+          <p class="muted">הנגנים הקבועים של האנסמבל — סולנים ונגני קאמרי מהבולטים בישראל.</p>
+        </div>
+        <ul class="musicians__list" id="musiciansList"></ul>
+      </div>
+
+      <div class="people-grid" data-reveal>
+        <div>
+          <h4 class="people-grid__title">מנצח אורח</h4>
+          <p><strong>ז׳ולט נאג׳</strong> — מנצח הונגרי, מהבולטים באירופה בתחום המוזיקה המודרנית והעכשווית. ניצח על תזמורות רבות ביניהן הפילהרמונית של ברגן, התזמורת הסימפונית ירושלים ותזמורות הרדיו האיטלקי. ב־1999 הוענק לו פרס מיוחד על הצטיינות בביצוע מוזיקה ישראלית.</p>
+        </div>
+        <div>
+          <h4 class="people-grid__title">צוות האנסמבל</h4>
+          <ul class="plain" id="teamList"></ul>
+        </div>
+        <div>
+          <h4 class="people-grid__title">ועד מנהל</h4>
+          <ul class="plain plain--inline" id="boardList"></ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ SEASON ============ -->
+    <section class="season" id="season" aria-labelledby="seasonTitle">
+      <div class="season__intro section">
+        <div class="section-head">
+          <span class="section-head__no">02</span>
+          <h2 class="section-head__title" id="seasonTitle">העונה ה־36</h2>
+          <span class="section-head__line" aria-hidden="true"></span>
+        </div>
+        <div class="season__lead">
+          <p class="season__big" data-reveal>
+            <span class="season__disc">DISCOVERIES</span>
+            תגליות חדשות<br />במוזיקה עכשווית
+          </p>
+          <p class="season__desc" data-reveal>
+            יצירות של גדולי המלחינים בני זמננו — סטיב רייך עם אופרת הווידאו ״המערה״, אליוט קרטר, ג׳ורג׳ בנג׳מין, קאיה סאריהו
+            ורבים וטובים — לצד מלחינים ישראלים בהופעות בכורה. כל הקונצרטים במוצאי שבת, 20:00, באולם צוקר.
+          </p>
+        </div>
+      </div>
+
+      <div class="season__pin">
+        <div class="season__progress" aria-hidden="true"><span></span></div>
+        <ol class="season__track" id="seasonTrack" aria-label="רשימת הקונצרטים בעונה ה־36"></ol>
+      </div>
+    </section>
+
+    <!-- ============ TICKETS ============ -->
+    <section class="tickets section" id="tickets" aria-labelledby="ticketsTitle">
+      <div class="section-head">
+        <span class="section-head__no">03</span>
+        <h2 class="section-head__title" id="ticketsTitle">כרטיסים ומנויים</h2>
+        <span class="section-head__line" aria-hidden="true"></span>
+      </div>
+
+      <div class="tickets__grid">
+        <div class="subs" data-reveal>
+          <div class="subs__visual" aria-hidden="true">
+            <img src="/media/subs-red-700.webp" srcset="/media/subs-red-700.webp 700w, /media/subs-red-1400.webp 1400w" sizes="(max-width: 900px) 90vw, 40vw" alt="" loading="lazy" />
+          </div>
+          <div class="subs__body">
+            <p class="eyebrow">מנוי לעונה ה־36</p>
+            <h3 class="subs__title">תגליות<br /><span>מסע של 6 קונצרטים</span></h3>
+            <p class="subs__price"><span class="subs__num" data-count="570">570</span><span class="subs__cur">₪</span></p>
+            <p class="muted">למנויים חדשים · הנחות לסטודנטים, למלחינים ולאזרחים ותיקים</p>
+            <ul class="price-list">
+              <li><span>מנוי רגיל</span><b>570 ₪</b></li>
+              <li><span>אזרח ותיק / סטודנט</span><b>513 ₪</b></li>
+              <li><span>מנוי ממשיך</span><b>480 ₪</b></li>
+              <li><span>מנוי למלחינים</span><b>360 ₪</b></li>
+            </ul>
+            <a class="btn btn--ink btn--lg btn--block" href="https://www.eventer.co.il/f0zff" target="_blank" rel="noopener" data-magnetic>
+              <span>לרכישת מנוי</span><span class="sr-only"> (נפתח בחלון חדש)</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="singles" data-reveal>
+          <p class="eyebrow">כרטיסים בודדים</p>
+          <div class="singles__prices">
+            <div><b>120 ₪</b><span>כרטיס רגיל</span></div>
+            <div><b>108 ₪</b><span>אזרח ותיק / סטודנט</span></div>
+          </div>
+          <ul class="singles__list" id="ticketList"></ul>
+          <p class="singles__box">
+            קופת היכל התרבות: <a href="tel:036822403" dir="ltr">03-6822403</a>
+          </p>
+        </div>
+      </div>
+
+      <div class="policy" data-reveal>
+        <details>
+          <summary><span>מה כולל המנוי</span><i aria-hidden="true"></i></summary>
+          <ul>
+            <li>ישיבה באולם ל־6 קונצרטים בסדרת ״תגליות״.</li>
+            <li>הקונצרטים מתקיימים באולם צוקר, היכל התרבות תל אביב.</li>
+            <li>הקונצרטים מצולמים ויהיו זמינים לצפייה ולהאזנה.</li>
+          </ul>
+        </details>
+        <details>
+          <summary><span>מדיניות החלפת כרטיסים וביטולים</span><i aria-hidden="true"></i></summary>
+          <ul>
+            <li>מנויים ורוכשי כרטיסים בודדים שנבצר מהם להגיע לקונצרט ישלחו מייל עד 24 שעות לפני שעת הקונצרט.</li>
+            <li>רק מנויים שהודיעו על ביטול כרטיס יוכלו לנצלו לקונצרט אחר — <a href="mailto:info.ens21@gmail.com">info.ens21@gmail.com</a>.</li>
+            <li>ניתן להמיר כרטיסים שלא נוצלו בעונה קודמת לכרטיסים בעונה הבאה, בתנאי שבעל הכרטיס רכש מנוי לעונה הבאה.</li>
+            <li>האפשרויות השונות להחלפת כרטיסים שלא נוצלו יישלחו אליכם במייל במהלך העונה.</li>
+          </ul>
+        </details>
+      </div>
+    </section>
+
+    <!-- ============ CONTACT ============ -->
+    <section class="contact section" id="contact" aria-labelledby="contactTitle">
+      <div class="section-head section-head--light">
+        <span class="section-head__no">04</span>
+        <h2 class="section-head__title" id="contactTitle">צור קשר</h2>
+        <span class="section-head__line" aria-hidden="true"></span>
+      </div>
+      <div class="contact__grid">
+        <div class="contact__info">
+          <p class="contact__big" data-reveal>בואו<br />נדבר.</p>
+          <ul class="contact__links">
+            <li data-reveal><span>WhatsApp</span><a href="https://wa.me/972535554072" target="_blank" rel="noopener" dir="ltr">+972-53-5554072</a></li>
+            <li data-reveal><span>אימייל</span><a href="mailto:info.ens21@gmail.com">info.ens21@gmail.com</a></li>
+            <li data-reveal><span>קופה</span><a href="tel:036822403" dir="ltr">03-6822403</a></li>
+          </ul>
+          <ul class="socials" data-reveal>
+            <li><a href="https://www.facebook.com/ICP21" target="_blank" rel="noopener">Facebook</a></li>
+            <li><a href="https://www.youtube.com/channel/UCKnjkzokNy3O1K2ccuJL1PA" target="_blank" rel="noopener">YouTube</a></li>
+            <li><a href="https://soundcloud.com/user-908756900-481539360" target="_blank" rel="noopener">SoundCloud</a></li>
+            <li><a href="https://www.eventer.co.il/user/ensemble21" target="_blank" rel="noopener">Eventer</a></li>
+          </ul>
+        </div>
+        <form class="form" id="contactForm" novalidate data-reveal>
+          <p class="form__intro">השאירו הודעה ונחזור אליכן/ם בהקדם האפשרי.</p>
+          <div class="field">
+            <input id="f-name" name="name" type="text" autocomplete="name" required placeholder=" " />
+            <label for="f-name">שם מלא</label>
+          </div>
+          <div class="field">
+            <input id="f-email" name="email" type="email" autocomplete="email" required placeholder=" " dir="auto" />
+            <label for="f-email">אימייל</label>
+          </div>
+          <div class="field">
+            <input id="f-phone" name="phone" type="tel" autocomplete="tel" placeholder=" " dir="auto" />
+            <label for="f-phone">טלפון (לא חובה)</label>
+          </div>
+          <div class="field">
+            <textarea id="f-msg" name="message" rows="4" required placeholder=" "></textarea>
+            <label for="f-msg">ההודעה שלכם</label>
+          </div>
+          <label class="check">
+            <input type="checkbox" name="newsletter" />
+            <span>אשמח להצטרף לרשימת התפוצה ולהתעדכן במופעים והטבות</span>
+          </label>
+          <button class="btn btn--paper btn--lg" type="submit" data-magnetic><span>שליחה</span></button>
+          <p class="form__status" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ FOOTER ============ -->
+  <footer class="footer">
+    <div class="footer__top">
+      <svg class="footer__mark" data-logo aria-hidden="true"></svg>
+      <div class="footer__brand">
+        <p class="footer__he">אנסמבל המאה ה־21</p>
+        <p class="footer__en">Israel Contemporary Players</p>
+      </div>
+      <nav class="footer__nav" aria-label="ניווט תחתון">
+        <a href="#about">אודות</a>
+        <a href="#season">העונה ה־36</a>
+        <a href="#tickets">כרטיסים</a>
+        <a href="#contact">צור קשר</a>
+        <a href="/accessibility.html">הצהרת נגישות</a>
+      </nav>
+    </div>
+    <div class="footer__partners">
+      <span>בתמיכת</span>
+      <img src="/media/p-culture.webp" alt="משרד התרבות והספורט — מנהל התרבות" loading="lazy" height="48" />
+      <img src="/media/p-tlv.webp" alt="עיריית תל אביב־יפו" loading="lazy" height="48" />
+      <img src="/media/p-evs.webp" alt="Ernst von Siemens Music Foundation" loading="lazy" height="48" />
+    </div>
+    <div class="footer__bottom">
+      <p>© <span id="year">2026</span> אנסמבל המאה ה־21. כל הזכויות שמורות.</p>
+      <p><a href="#top" class="to-top">חזרה למעלה ↑</a></p>
+    </div>
+  </footer>
+
+  <!-- ============ CONCERT DIALOG ============ -->
+  <dialog class="concert-dialog" id="concertDialog" aria-labelledby="dlgTitle">
+    <div class="concert-dialog__inner">
+      <button class="concert-dialog__close" type="button" aria-label="סגירה" data-close>✕</button>
+      <div class="concert-dialog__media"><img alt="" id="dlgImg" /></div>
+      <div class="concert-dialog__body" id="dlgBody"></div>
+    </div>
+  </dialog>
+
+  <!-- ============ ACCESSIBILITY ============ -->
+  <button class="a11y-fab" type="button" aria-expanded="false" aria-controls="a11yPanel" aria-label="תפריט נגישות">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="4" r="2" /><path d="M4 8.5c2.6.8 5.3 1.2 8 1.2s5.4-.4 8-1.2M12 9.7V15m0 0-3.5 6.5M12 15l3.5 6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
+  </button>
+  <div class="a11y-panel" id="a11yPanel" role="region" aria-label="אפשרויות נגישות" hidden>
+    <div class="a11y-panel__head">
+      <h2>נגישות</h2>
+      <button type="button" class="a11y-panel__close" aria-label="סגירת תפריט נגישות" data-a11y-close>✕</button>
+    </div>
+    <div class="a11y-panel__size" role="group" aria-label="גודל טקסט">
+      <span>גודל טקסט</span>
+      <div>
+        <button type="button" data-a11y-size="-1" aria-label="הקטנת טקסט">א−</button>
+        <output id="a11ySizeOut">100%</output>
+        <button type="button" data-a11y-size="1" aria-label="הגדלת טקסט">א+</button>
+      </div>
+    </div>
+    <div class="a11y-panel__grid">
+      <button type="button" aria-pressed="false" data-a11y="contrast">ניגודיות גבוהה</button>
+      <button type="button" aria-pressed="false" data-a11y="dark">רקע כהה</button>
+      <button type="button" aria-pressed="false" data-a11y="grayscale">גווני אפור</button>
+      <button type="button" aria-pressed="false" data-a11y="links">הדגשת קישורים</button>
+      <button type="button" aria-pressed="false" data-a11y="readable">גופן קריא</button>
+      <button type="button" aria-pressed="false" data-a11y="still">עצירת אנימציות</button>
+      <button type="button" aria-pressed="false" data-a11y="spacing">ריווח טקסט</button>
+      <button type="button" aria-pressed="false" data-a11y="cursor">סמן גדול</button>
+    </div>
+    <div class="a11y-panel__foot">
+      <button type="button" data-a11y-reset>איפוס הגדרות</button>
+      <a href="/accessibility.html">הצהרת נגישות</a>
+    </div>
+  </div>
+
+  <audio id="bgAudio" src="/audio/phoenix.mp3" preload="none" loop></audio>
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

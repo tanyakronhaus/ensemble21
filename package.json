@@ -1,0 +1,23 @@
+{
+  "name": "ensemble21",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "assets": "node scripts/build-assets.mjs"
+  },
+  "devDependencies": {
+    "potrace": "^2.1.8",
+    "sharp": "^0.35.5",
+    "vite": "^6.4.6"
+  },
+  "dependencies": {
+    "@fontsource/frank-ruhl-libre": "^5.3.0",
+    "@fontsource/heebo": "^5.3.0",
+    "gsap": "^3.15.1",
+    "lenis": "^1.3.27"
+  }
+}
