@@ -215,11 +215,12 @@ h1, h2, h3, h4,
 .sound-toggle__bars { display: inline-flex; align-items: flex-end; gap: 2px; height: 14px; }
 .sound-toggle__bars i { width: 2px; height: 3px; background: currentColor; border-radius: 1px; transition: height .15s; }
 .sound-toggle[aria-pressed='true'] { border-color: var(--ink); }
-.burger { display: none; width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--line); background: none; cursor: pointer; position: relative; }
-.burger span { position: absolute; inset-inline: 12px; height: 1.5px; background: currentColor; transition: transform .4s var(--ease); }
-.burger span:first-child { top: 17px; } .burger span:last-child { top: 25px; }
-.burger[aria-expanded='true'] span:first-child { transform: translateY(4px) rotate(45deg); }
-.burger[aria-expanded='true'] span:last-child { transform: translateY(-4px) rotate(-45deg); }
+.burger { display: none; width: 44px; height: 44px; border: 0; background: none; cursor: pointer; position: relative; padding: 0; }
+.burger span { position: absolute; inset-inline: 10px; height: 2px; background: currentColor; transition: transform .4s var(--ease), opacity .3s; }
+.burger span:nth-child(1) { top: 14px; } .burger span:nth-child(2) { top: 21px; } .burger span:nth-child(3) { top: 28px; }
+.burger[aria-expanded='true'] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.burger[aria-expanded='true'] span:nth-child(2) { opacity: 0; }
+.burger[aria-expanded='true'] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
 .mobile-menu {
   position: fixed; inset: 0; z-index: 95; background: var(--ink); color: var(--paper);
@@ -240,7 +241,9 @@ h1, h2, h3, h4,
   .burger { display: inline-block; }
   .sound-toggle__label { display: none; }
   .brand__logo { height: 32px; }
-  .sound-toggle { width: 44px; height: 44px; justify-content: center; padding: 0; }
+  .sound-toggle { width: 44px; height: 44px; justify-content: center; padding: 0; border: 0 !important; }
+  .sound-toggle__bars { display: none; }
+  .lang-toggle { border: 0; padding: 0 6px; min-width: 36px; height: 44px; }
 }
 
 /* =========================================================
@@ -339,8 +342,7 @@ h1, h2, h3, h4,
 .score__playhead { position: absolute; top: 0; bottom: 0; left: 50%; width: 1px; background: var(--red); opacity: .7; }
 .score__playhead::before, .score__playhead::after { content: ''; position: absolute; left: -4px; width: 9px; height: 9px; border-radius: 50%; background: var(--red); }
 .score__playhead::before { top: -2px; } .score__playhead::after { bottom: -2px; }
-.score__caption { display: flex; justify-content: space-between; gap: 4px 20px; flex-wrap: wrap; padding: 6px var(--gutter) 0; font-size: .72rem; color: var(--muted); }
-.score__caption span:last-child { direction: rtl; }
+.score__caption { display: block; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; padding: 6px var(--gutter) 0; font-size: .72rem; line-height: 1.4; color: var(--muted); direction: inherit; }
 .score__caption em { font-family: var(--f-serif); }
 
 /* =========================================================
@@ -567,7 +569,7 @@ h1, h2, h3, h4,
 .field { position: relative; margin-bottom: 22px; }
 .field input, .field textarea {
   width: 100%; background: transparent; border: 0; border-bottom: 1px solid var(--line); color: inherit;
-  font: inherit; font-size: 1.1rem; padding: 22px 0 10px; border-radius: 0; resize: vertical; text-align: right;
+  font: inherit; font-size: 1.1rem; padding: 22px 0 10px; border-radius: 0; resize: vertical; text-align: start;
 }
 .field input:focus, .field textarea:focus { outline: none; border-bottom-color: var(--gold); }
 .field label { position: absolute; top: 22px; inset-inline-start: 0; color: var(--muted); pointer-events: none; transition: transform .35s var(--ease), font-size .35s, color .35s; transform-origin: right top; }
@@ -666,15 +668,89 @@ html.a11y-still .hero__strings { display: none; }
    Square buttons everywhere
    ========================================================= */
 button, .btn, .btn::before, .intro__btn, .sound-toggle, .burger, .socials a, .concert__past,
-.concert-dialog__close, .a11y-fab, .a11y-panel, .a11y-panel button, .skip-link { border-radius: 0 !important; }
+.concert-dialog__close, .a11y-panel, .a11y-panel button, .skip-link, .lang-toggle, .cbtn { border-radius: 0 !important; }
+.a11y-fab { border-radius: 50% !important; }
 
 /* =========================================================
    Season — vertical layout (all screens)
    ========================================================= */
-.season__track { gap: clamp(70px, 10vw, 150px); }
+.season__track { gap: clamp(36px, 4vw, 64px); }
 @media (min-width: 1000px) {
-  .concert { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); min-height: min(86vh, 860px); }
-  .concert__media { aspect-ratio: auto; height: min(78vh, 760px); }
+  .concert { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .concert__media { aspect-ratio: auto; height: min(68vh, 640px); }
   .concert:nth-child(even) .concert__media { order: 2; }
   .concert:nth-child(even) .concert__num { inset-inline-end: auto; inset-inline-start: 0; }
 }
+
+/* =========================================================
+   Living images
+   ========================================================= */
+.concert__float, .hero__float { width: 100%; height: 100%; will-change: transform; }
+.concert__float img { width: 100%; height: 100%; object-fit: contain; object-position: center; }
+.hero__float img { width: 100%; height: 100%; object-fit: cover; object-position: center 20%; }
+
+/* =========================================================
+   Justified paragraphs
+   ========================================================= */
+.text p, .text li, .hero__lead, .musicians__head p, .doc__body p, .form__intro {
+  text-align: justify; text-justify: inter-word; hyphens: auto;
+}
+
+/* =========================================================
+   Header: sound note icon, language toggle
+   ========================================================= */
+.sound-toggle__note { width: 18px; height: 18px; flex: none; transition: transform .4s var(--ease); }
+.sound-toggle.is-playing .sound-toggle__note { animation: noteBob 1.1s ease-in-out infinite; color: var(--red); }
+@keyframes noteBob { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-3px) rotate(-8deg); } }
+.lang-toggle {
+  background: none; border: 1px solid var(--line); cursor: pointer; height: 38px; min-width: 44px; padding: 0 12px;
+  font-size: .85rem; font-weight: 500; letter-spacing: .04em;
+}
+.lang-toggle:hover { border-color: var(--ink); }
+.mobile-menu__lang, .footer__lang { background: none; border: 1px solid currentColor; color: inherit; cursor: pointer; padding: .4em 1em; width: fit-content; font-size: .9rem; opacity: .9; }
+.footer__lang { padding: .2em .8em; }
+
+/* intro language choice */
+.intro__actions { flex-direction: column; align-items: center; gap: 18px; }
+.intro__enter { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.intro__langs { display: flex; align-items: center; gap: 10px; color: rgba(243,238,230,.5); font-size: .95rem; }
+.intro__lang { background: none; border: 0; color: rgba(243,238,230,.55); cursor: pointer; padding: 6px 4px; font-size: 1rem; border-bottom: 1px solid transparent; }
+.intro__lang[aria-pressed='true'] { color: #f3eee6; border-bottom-color: var(--gold); }
+.intro__lang:hover { color: #fff; }
+
+/* =========================================================
+   Contact buttons (WhatsApp / e-mail)
+   ========================================================= */
+.contact__btns { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 0 0 22px; }
+.cbtn {
+  display: flex; align-items: center; gap: 14px; padding: 16px 18px; text-decoration: none;
+  border: 1px solid rgba(243,238,230,.3); color: var(--paper); transition: background .35s var(--ease), color .35s, border-color .35s;
+}
+.cbtn svg { width: 30px; height: 30px; flex: none; }
+.cbtn span { display: flex; flex-direction: column; line-height: 1.25; min-width: 0; }
+.cbtn b { font-weight: 500; font-size: 1.05rem; }
+.cbtn small { opacity: .65; font-size: .8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cbtn--wa:hover, .cbtn--wa:focus-visible { background: #25d366; border-color: #25d366; color: #0b2b17; }
+.cbtn--mail:hover, .cbtn--mail:focus-visible { background: var(--paper); border-color: var(--paper); color: var(--ink); }
+@media (max-width: 480px) { .contact__btns { grid-template-columns: 1fr; } }
+
+/* =========================================================
+   Mobile hero buttons side by side
+   ========================================================= */
+@media (max-width: 640px) {
+  .hero__ctas { flex-wrap: nowrap; gap: 8px; }
+  .hero__ctas .btn { flex: 1 1 0; min-width: 0; padding: .85em .6em; font-size: .86rem; white-space: normal; text-align: center; line-height: 1.2; }
+}
+
+/* =========================================================
+   English / left-to-right adjustments
+   ========================================================= */
+html[lang='en'] .hero__title { font-size: clamp(3rem, 8.4vw, 7.6rem); line-height: .92; }
+html[lang='en'] .section-head__line, html[lang='en'] .nav a::after { transform-origin: left; }
+html[lang='en'] .field label { transform-origin: left top; }
+html[lang='en'] .musician:hover .musician__name { transform: translateX(14px); }
+html[lang='en'] .ticket-row__go::after { content: '→'; }
+html[lang='en'] .ticket-row a:hover .ticket-row__go::after { transform: translateX(6px); }
+html[lang='en'] .ticket-row a::before { transform-origin: right; }
+html[lang='en'] .about__statement { max-width: 28ch; }
+html[lang='en'] .mobile-menu { clip-path: circle(0 at 40px 38px); }

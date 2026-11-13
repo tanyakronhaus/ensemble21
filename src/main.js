@@ -13,13 +13,14 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 
-import { CONCERTS, MUSICIANS, BOARD, TEAM, VENUE } from './data.js';
+import { CONCERTS, MUSICIANS, BOARD, TEAM, VENUE, DAY } from './data.js';
 import { LOGO_PATH, LOGO_VIEWBOX } from './logo-path.js';
 import { createIntro } from './intro.js';
 import { createStrings } from './strings.js';
 import { createAudio } from './audio.js';
 import { renderScore, COPIES } from './score.js';
 import { initA11y, applyStoredA11y } from './a11y.js';
+import { setLang, getLang, getStoredLang, onLangChange, L, t } from './i18n.js';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -39,10 +40,9 @@ $$('[data-logo]').forEach((svg) => {
   svg.setAttribute('viewBox', LOGO_VIEWBOX);
   svg.innerHTML = `<path fill="currentColor" fill-rule="evenodd" d="${LOGO_PATH}"/>`;
 });
-$('#year').textContent = now.getFullYear();
 
 /* ------------------------------------------------------------------ */
-/* Render content                                                       */
+/* Render content (structure once, texts per language)                  */
 /* ------------------------------------------------------------------ */
 const img = (name, alt = '', sizes = '(max-width: 1000px) 92vw, 46vw', eager = false) =>
   `<img src="/media/${name}-700.webp" srcset="/media/${name}-700.webp 700w, /media/${name}-1400.webp 1400w" sizes="${sizes}" alt="${alt}" ${eager ? '' : 'loading="lazy"'} decoding="async" />`;
@@ -50,73 +50,90 @@ const img = (name, alt = '', sizes = '(max-width: 1000px) 92vw, 46vw', eager = f
 const isPast = (c) => new Date(c.date).getTime() + 3 * 3600e3 < now.getTime();
 const upcoming = CONCERTS.filter((c) => !isPast(c));
 const next = upcoming[0] || CONCERTS[CONCERTS.length - 1];
+const people = (c) => c.people.map(([r, n]) => `<li><span>${L(r)}</span><b>${L(n)}</b></li>`).join('');
 
-// Season track
-$('#seasonTrack').innerHTML = CONCERTS.map((c) => {
-  const past = isPast(c);
-  return `
+// Season — structure
+$('#seasonTrack').innerHTML = CONCERTS.map((c) => `
   <li class="concert" id="concert-${c.id}" style="--c:${c.color};--t:${c.tint}" data-concert="${c.id}">
-    <div class="concert__media" data-open="${c.id}" data-cursor="לפרטים" role="button" tabindex="0" aria-label="פרטים מלאים: ${c.title}">
-      ${img(c.img, '')}
+    <div class="concert__media" data-open="${c.id}" role="button" tabindex="0">
+      <div class="concert__float">${img(c.img, '')}</div>
       <span class="concert__dot" aria-hidden="true"></span>
       <span class="concert__ring" aria-hidden="true"></span>
     </div>
     <div class="concert__body">
       <span class="concert__num" aria-hidden="true">0${c.no}</span>
-      <p class="concert__disc">DISCOVERIES ${c.no} · ${c.en.toUpperCase()}</p>
-      <h3 class="concert__title">${c.title}</h3>
-      <p class="concert__tag">${c.tagline}</p>
-      <div class="concert__meta">
-        <span class="concert__date">${c.dateLabel}</span>
-        <span class="concert__when">${c.day} · 20:00 · ${VENUE}</span>
-      </div>
-      <ul class="concert__people">
-        ${c.people.map(([r, n]) => `<li><span>${r}</span><b>${n}</b></li>`).join('')}
-      </ul>
-      <div class="concert__actions">
-        ${past
-          ? `<span class="concert__past">✓ הקונצרט התקיים</span>`
-          : `<a class="btn btn--ink" href="${c.tickets}" target="_blank" rel="noopener" data-magnetic><span>לרכישת כרטיסים</span><span class="sr-only"> ל${c.title} (נפתח בחלון חדש)</span></a>`}
-        <button class="btn btn--line" type="button" data-open="${c.id}"><span>התוכנית המלאה</span></button>
-      </div>
+      <p class="concert__disc"></p>
+      <h3 class="concert__title"></h3>
+      <p class="concert__tag"></p>
+      <div class="concert__meta"><span class="concert__date">${c.dateLabel}</span><span class="concert__when"></span></div>
+      <ul class="concert__people"></ul>
+      <div class="concert__actions"></div>
     </div>
-  </li>`;
-}).join('');
+  </li>`).join('');
 
-// Ticket list
-$('#ticketList').innerHTML = CONCERTS.map((c) => {
-  const past = isPast(c);
-  const inner = `<span class="ticket-row__date">${c.dateLabel}</span>
-      <span class="ticket-row__title">${c.title}<span class="sr-only"> — ${past ? 'התקיים' : 'לרכישת כרטיסים, נפתח בחלון חדש'}</span></span>
-      <span class="ticket-row__go" aria-hidden="true">${past ? 'התקיים' : 'כרטיסים'}</span>`;
-  return `<li class="ticket-row ${past ? 'is-past' : ''}" style="--c:${c.color}">
-    ${past ? `<div>${inner}</div>` : `<a href="${c.tickets}" target="_blank" rel="noopener">${inner}</a>`}
-  </li>`;
-}).join('');
+// Season — texts
+function concertTexts() {
+  CONCERTS.forEach((c) => {
+    const el = $(`#concert-${c.id}`);
+    const past = isPast(c);
+    const media = $('.concert__media', el);
+    media.dataset.cursor = t('cursorDetails');
+    media.setAttribute('aria-label', `${t('details')}: ${L(c.title)}`);
+    $('.concert__disc', el).textContent = `DISCOVERIES ${c.no} · ${c.title.en.toUpperCase()}`;
+    $('.concert__title', el).textContent = L(c.title);
+    $('.concert__tag', el).textContent = L(c.tagline);
+    $('.concert__when', el).textContent = `${L(DAY)} · 20:00 · ${L(VENUE)}`;
+    $('.concert__people', el).innerHTML = people(c);
+    $('.concert__actions', el).innerHTML = `${past
+      ? `<span class="concert__past">${t('past')}</span>`
+      : `<a class="btn btn--ink" href="${c.tickets}" target="_blank" rel="noopener"><span>${t('tickets')}</span><span class="sr-only"> — ${L(c.title)} ${t('newWin')}</span></a>`}
+      <button class="btn btn--line" type="button" data-open="${c.id}"><span>${t('full')}</span></button>`;
+  });
+}
 
-// Musicians / team / board
-$('#musiciansList').innerHTML = MUSICIANS.map(([n, i], k) => `
-  <li class="musician"><span class="musician__no">${String(k + 1).padStart(2, '0')}</span><span class="musician__name">${n}</span><span class="musician__inst">${i}</span></li>`).join('');
-$('#teamList').innerHTML = TEAM.map(([n, r]) => `<li>${n}<span>${r}</span></li>`).join('');
-$('#boardList').innerHTML = BOARD.map((n) => `<li>${n}</li>`).join('');
+function listsTexts() {
+  $('#ticketList').innerHTML = CONCERTS.map((c) => {
+    const past = isPast(c);
+    const inner = `<span class="ticket-row__date">${c.dateLabel}</span>
+      <span class="ticket-row__title">${L(c.title)}<span class="sr-only"> — ${past ? t('pastShort') : `${t('tickets')} ${t('newWin')}`}</span></span>
+      <span class="ticket-row__go" aria-hidden="true">${past ? t('pastShort') : t('ticketsShort')}</span>`;
+    return `<li class="ticket-row ${past ? 'is-past' : ''}" style="--c:${c.color}">
+      ${past ? `<div>${inner}</div>` : `<a href="${c.tickets}" target="_blank" rel="noopener">${inner}</a>`}</li>`;
+  }).join('');
+  const ml = $('#musiciansList');
+  if (!ml.children.length) {
+    ml.innerHTML = MUSICIANS.map((_, k) => `<li class="musician"><span class="musician__no">${String(k + 1).padStart(2, '0')}</span><span class="musician__name"></span><span class="musician__inst"></span></li>`).join('');
+  }
+  [...ml.children].forEach((li, k) => {
+    li.children[1].textContent = L(MUSICIANS[k][0]);
+    li.children[2].textContent = L(MUSICIANS[k][1]);
+  });
+  $('#teamList').innerHTML = TEAM.map(([n, r]) => `<li>${L(n)}<span>${L(r)}</span></li>`).join('');
+  $('#boardList').innerHTML = BOARD.map((n) => `<li>${L(n)}</li>`).join('');
+}
 
 // Hero — next concert
 const heroNext = $('#heroNext');
 heroNext.style.setProperty('--c', next.color);
 heroNext.href = `#concert-${next.id}`;
-heroNext.setAttribute('aria-label', `הקונצרט הבא: ${next.title}, ${next.dateLabel}`);
 heroNext.innerHTML = `
-  <div class="hero__next-media">${img(next.img, '', '(max-width: 900px) 80vw, 32vw', true)}</div>
+  <div class="hero__next-media"><div class="hero__float">${img(next.img, '', '(max-width: 900px) 80vw, 32vw', true)}</div></div>
   <div class="hero__next-badge" aria-hidden="true">
     <svg viewBox="0 0 132 132"><defs><path id="circ" d="M66,66 m-52,0 a52,52 0 1,1 104,0 a52,52 0 1,1 -104,0"/></defs>
-      <text><textPath href="#circ">NEXT CONCERT · הקונצרט הבא · NEXT CONCERT · </textPath></text></svg>
+      <text><textPath href="#circ" id="ringText"></textPath></text></svg>
     <span><b>0${next.no}</b>${next.dateLabel}</span>
   </div>
   <div class="hero__next-info">
-    <div><h2>${next.title}</h2><p>${next.dateLabel} · 20:00 · אולם צוקר</p></div>
+    <div><h2 id="nextTitle"></h2><p id="nextWhen"></p></div>
     <div class="hero__count" aria-hidden="true" id="countdown"></div>
   </div>`;
-
+function heroTexts() {
+  heroNext.setAttribute('aria-label', `${t('next')}: ${L(next.title)}, ${next.dateLabel}`);
+  $('#ringText').textContent = t('nextRing');
+  $('#nextTitle').textContent = L(next.title);
+  $('#nextWhen').textContent = `${next.dateLabel} · 20:00 · ${t('hall')}`;
+  tickCountdown();
+}
 function tickCountdown() {
   const el = $('#countdown');
   if (!el) return;
@@ -124,9 +141,8 @@ function tickCountdown() {
   const d = Math.floor(diff / 864e5); diff -= d * 864e5;
   const h = Math.floor(diff / 36e5); diff -= h * 36e5;
   const m = Math.floor(diff / 6e4);
-  el.innerHTML = `<div><b>${d}</b><span>ימים</span></div><div><b>${String(h).padStart(2, '0')}</b><span>שעות</span></div><div><b>${String(m).padStart(2, '0')}</b><span>דקות</span></div>`;
+  el.innerHTML = `<div><b>${d}</b><span>${t('days')}</span></div><div><b>${String(h).padStart(2, '0')}</b><span>${t('hours')}</span></div><div><b>${String(m).padStart(2, '0')}</b><span>${t('mins')}</span></div>`;
 }
-tickCountdown();
 setInterval(tickCountdown, 30e3);
 
 /* ------------------------------------------------------------------ */
@@ -136,9 +152,11 @@ const audio = createAudio($('#bgAudio'));
 const soundBtn = $('.sound-toggle');
 const bars = $$('.sound-toggle__bars i');
 soundBtn.addEventListener('click', () => audio.toggle());
+const soundLabel = () => soundBtn.setAttribute('aria-label', audio.playing ? t('soundOff') : t('soundOn'));
 audio.onChange((p) => {
   soundBtn.setAttribute('aria-pressed', String(p));
-  soundBtn.setAttribute('aria-label', p ? 'השתקת המוזיקה' : 'הפעלת מוזיקה ברקע');
+  soundBtn.classList.toggle('is-playing', p);
+  soundLabel();
 });
 (function meter() {
   const b = audio.bands(4);
@@ -154,7 +172,7 @@ function startLenis() {
   if (isStill() || lenis) return;
   lenis = new Lenis({ lerp: 0.1, smoothWheel: true });
   lenis.on('scroll', ScrollTrigger.update);
-  gsap.ticker.add((t) => lenis && lenis.raf(t * 1000));
+  gsap.ticker.add((tm) => lenis && lenis.raf(tm * 1000));
   gsap.ticker.lagSmoothing(0);
 }
 function scrollToTarget(target) {
@@ -174,7 +192,51 @@ document.addEventListener('click', (e) => {
   e.preventDefault();
   closeMenu();
   scrollToTarget(el);
-  history.replaceState(null, '', id === '#main' || id === '#top' ? location.pathname : id);
+  history.replaceState(null, '', id === '#main' || id === '#top' ? location.pathname + location.search : id);
+});
+
+/* ------------------------------------------------------------------ */
+/* Language                                                             */
+/* ------------------------------------------------------------------ */
+let wordsTween = null;
+function splitStatement() {
+  const st = $('[data-words]');
+  if (!st) return;
+  wordsTween?.scrollTrigger?.kill();
+  wordsTween?.kill();
+  st.innerHTML = st.textContent.trim().split(/\s+/).map((w) => `<span class="w">${w}</span>`).join(' ');
+  wordsTween = gsap.to(st.querySelectorAll('.w'), {
+    opacity: 1, stagger: 0.1, ease: 'none',
+    scrollTrigger: { trigger: st, start: 'top 80%', end: 'bottom 45%', scrub: true },
+  });
+}
+function moreBtnText() {
+  const btn = $('[data-more]');
+  btn.textContent = btn.getAttribute('aria-expanded') === 'true' ? t('less') : t('more');
+}
+function applyLangTexts() {
+  concertTexts();
+  listsTexts();
+  heroTexts();
+  moreBtnText();
+  soundLabel();
+  burger.setAttribute('aria-label', menu.hidden ? t('menuOpen') : t('menuClose'));
+  $$('[data-set-lang]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.setLang === getLang())));
+}
+onLangChange(() => {
+  applyLangTexts();
+  if (setupDone) { splitStatement(); ScrollTrigger.refresh(); }
+});
+document.addEventListener('click', (e) => {
+  const tog = e.target.closest('[data-lang-toggle]');
+  const set = e.target.closest('[data-set-lang]');
+  if (!tog && !set) return;
+  const nextLang = set ? set.dataset.setLang : getLang() === 'he' ? 'en' : 'he';
+  if (nextLang === getLang()) return;
+  closeMenu();
+  const swap = () => setLang(nextLang);
+  if (isStill() || set) swap();
+  else gsap.to('main, .site-header, .footer', { autoAlpha: 0, duration: 0.25, onComplete: () => { swap(); gsap.to('main, .site-header, .footer', { autoAlpha: 1, duration: 0.45 }); } });
 });
 
 /* ------------------------------------------------------------------ */
@@ -204,7 +266,6 @@ function exitIntro(withSound) {
   if (exiting) return;
   exiting = true;
   if (withSound) audio.play();
-  try { sessionStorage.setItem('e21-intro', 'seen'); } catch { /* ignore */ }
   introFx?.burst();
   const tl = gsap.timeline({
     onComplete: () => {
@@ -235,57 +296,52 @@ function heroIn() {
     .to('.hero [data-reveal]', { autoAlpha: 1, y: 0, duration: 1.2, stagger: 0.1 }, 0.3)
     .to('.hero__next', { autoAlpha: 1, y: 0, duration: 1.4 }, 0.2)
     .fromTo('.hero__next-media', { clipPath: 'inset(100% 0 0 0)' }, { clipPath: 'inset(0% 0 0 0)', duration: 1.6, ease: 'expo.inOut' }, 0.2)
-    .to('.hero__next-media img', { scale: 1, duration: 2.2 }, 0.2)
     .to('.hero__circle', { scale: 1, autoAlpha: 1, duration: 2, stagger: 0.2 }, 0.1)
     .add(() => strings.strum(), 0.4);
 }
 
 /* ------------------------------------------------------------------ */
+/* Images that breathe: slow float + sway, independent per image        */
+/* ------------------------------------------------------------------ */
+function aliveImages() {
+  $$('.concert__float, .hero__float').forEach((el, i) => {
+    const d = 5 + (i % 3) * 0.9;
+    gsap.to(el, { y: -14, duration: d, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: -i * 0.7 });
+    gsap.to(el, { rotation: i % 2 ? 1.4 : -1.4, duration: d * 1.35, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: -i * 0.4 });
+    gsap.to(el, { scale: 1.03, duration: d * 0.8, ease: 'sine.inOut', yoyo: true, repeat: -1, delay: -i });
+  });
+  $$('.concert__ring').forEach((el, i) => gsap.to(el, { rotation: i % 2 ? -360 : 360, duration: 60 + i * 6, ease: 'none', repeat: -1 }));
+  $$('.concert__dot').forEach((el, i) => gsap.to(el, { x: i % 2 ? 10 : -10, y: 8, duration: 3.2 + i * 0.3, ease: 'sine.inOut', yoyo: true, repeat: -1 }));
+}
+
+/* ------------------------------------------------------------------ */
 /* Scroll animations                                                    */
 /* ------------------------------------------------------------------ */
+let setupDone = false;
 function setupScroll() {
-  const mm = gsap.matchMedia();
-
   // Generic reveals (outside hero)
   $$('[data-reveal]').filter((el) => !el.closest('.hero')).forEach((el) => {
-    gsap.from(el, { y: 50, autoAlpha: 0, duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 88%' } });
+    gsap.from(el, { y: 50, autoAlpha: 0, duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 88%', once: true } });
   });
 
   // Section heads
   $$('.section-head').forEach((h) => {
-    const tl = gsap.timeline({ scrollTrigger: { trigger: h, start: 'top 85%' } });
+    const tl = gsap.timeline({ scrollTrigger: { trigger: h, start: 'top 85%', once: true } });
     tl.from(h.querySelector('.section-head__title'), { yPercent: 100, autoAlpha: 0, duration: 1.1, ease: 'expo.out' })
       .from(h.querySelector('.section-head__line'), { scaleX: 0, duration: 1.4, ease: 'expo.inOut' }, 0.1)
-      .from(h.querySelector('.section-head__no'), { autoAlpha: 0, x: 20, duration: 0.8 }, 0.2);
+      .from(h.querySelector('.section-head__no'), { autoAlpha: 0, duration: 0.8 }, 0.2);
   });
 
-  // About statement — words light up while scrolling
-  const st = $('[data-words]');
-  if (st) {
-    st.innerHTML = st.textContent.trim().split(/\s+/).map((w) => `<span class="w">${w}</span>`).join(' ');
-    gsap.to(st.querySelectorAll('.w'), {
-      opacity: 1, stagger: 0.1, ease: 'none',
-      scrollTrigger: { trigger: st, start: 'top 80%', end: 'bottom 45%', scrub: true },
-    });
-  }
+  splitStatement();
 
   // Count-up numbers
   $$('[data-count]').forEach((el) => {
     const end = Number(el.dataset.count);
-    const from = end > 1000 ? end - 60 : 0;
-    const o = { v: from };
-    gsap.to(o, {
-      v: end, duration: 2, ease: 'power3.out',
-      scrollTrigger: { trigger: el, start: 'top 90%' },
-      onUpdate: () => (el.textContent = Math.round(o.v)),
-    });
+    const o = { v: end > 1000 ? end - 60 : 0 };
+    gsap.to(o, { v: end, duration: 2, ease: 'power3.out', scrollTrigger: { trigger: el, start: 'top 90%', once: true }, onUpdate: () => (el.textContent = Math.round(o.v)) });
   });
 
-  // Musicians stagger
-  gsap.from('.musician', {
-    y: 30, autoAlpha: 0, duration: 0.9, ease: 'expo.out', stagger: 0.05,
-    scrollTrigger: { trigger: '#musiciansList', start: 'top 85%' },
-  });
+  gsap.from('.musician', { y: 30, autoAlpha: 0, duration: 0.9, ease: 'expo.out', stagger: 0.05, scrollTrigger: { trigger: '#musiciansList', start: 'top 85%', once: true } });
 
   // Hero parallax
   gsap.to('.hero__next', { yPercent: -12, ease: 'none', scrollTrigger: { trigger: '.hero', start: 'top top', end: 'bottom top', scrub: true } });
@@ -301,10 +357,7 @@ function setupScroll() {
   const viewport = $('.score__viewport');
   let offset = 0, boost = 0, scoreVisible = false;
   new IntersectionObserver(([e]) => (scoreVisible = e.isIntersecting)).observe(viewport);
-  ScrollTrigger.create({
-    trigger: '.score', start: 'top bottom', end: 'bottom top',
-    onUpdate: (self) => { boost = Math.max(-400, Math.min(900, self.getVelocity() * 0.6)); },
-  });
+  ScrollTrigger.create({ trigger: '.score', start: 'top bottom', end: 'bottom top', onUpdate: (self) => { boost = Math.max(-400, Math.min(900, self.getVelocity() * 0.6)); } });
   gsap.ticker.add((time, dt) => {
     if (!scoreVisible) return;
     const speed = isStill() ? 0 : 70 + boost;
@@ -316,37 +369,21 @@ function setupScroll() {
     scoreTrack.style.transform = `translate3d(${-offset}px,0,0)`;
     const play = viewport.clientWidth / 2;
     for (const n of notes) {
-      const sx = n.x * scale - offset;
-      const lit = Math.abs(sx - play) < 34 * scale;
+      const lit = Math.abs(n.x * scale - offset - play) < 34 * scale;
       if (lit !== n.lit) { n.el.classList.toggle('is-lit', lit); n.lit = lit; }
     }
   });
 
-  // Season — one concert after another, animated on normal vertical scroll
+  // Season — one concert after another, on normal vertical scroll
   $$('.concert').forEach((c) => {
     const parts = c.querySelectorAll('.concert__disc, .concert__title, .concert__tag, .concert__meta, .concert__people, .concert__actions');
-    gsap.from(parts, {
-      y: 36, autoAlpha: 0, stagger: 0.07, duration: 1, ease: 'expo.out',
-      scrollTrigger: { trigger: c, start: 'top 80%', once: true },
-    });
-    gsap.from(c.querySelector('.concert__media'), {
-      y: 60, autoAlpha: 0, duration: 1.4, ease: 'expo.out',
-      scrollTrigger: { trigger: c, start: 'top 85%', once: true },
-    });
-    gsap.from(c.querySelector('.concert__ring'), {
-      rotate: -120, scale: 0.4, autoAlpha: 0, duration: 1.6, ease: 'expo.out',
-      scrollTrigger: { trigger: c, start: 'top 75%', once: true },
-    });
-    gsap.fromTo(c.querySelector('.concert__num'), { yPercent: 30 }, {
-      yPercent: -30, ease: 'none', scrollTrigger: { trigger: c, start: 'top bottom', end: 'bottom top', scrub: true },
-    });
+    gsap.from(parts, { y: 36, autoAlpha: 0, stagger: 0.07, duration: 1, ease: 'expo.out', scrollTrigger: { trigger: c, start: 'top 80%', once: true } });
+    gsap.from(c.querySelector('.concert__media'), { y: 60, autoAlpha: 0, duration: 1.4, ease: 'expo.out', scrollTrigger: { trigger: c, start: 'top 85%', once: true } });
+    gsap.fromTo(c.querySelector('.concert__media'), { yPercent: 6 }, { yPercent: -6, ease: 'none', scrollTrigger: { trigger: c, start: 'top bottom', end: 'bottom top', scrub: true } });
+    gsap.fromTo(c.querySelector('.concert__num'), { yPercent: 30 }, { yPercent: -30, ease: 'none', scrollTrigger: { trigger: c, start: 'top bottom', end: 'bottom top', scrub: true } });
   });
 
-  // Tickets visual parallax
   gsap.fromTo('.subs__visual img', { yPercent: -8, scale: 1.15 }, { yPercent: 8, ease: 'none', scrollTrigger: { trigger: '.subs', start: 'top bottom', end: 'bottom top', scrub: true } });
-
-  // Contact big words
-  gsap.from('.contact__big', { letterSpacing: '0.12em', ease: 'none', scrollTrigger: { trigger: '.contact', start: 'top 90%', end: 'top 30%', scrub: true } });
 
   // Active nav
   ['about', 'season', 'tickets', 'contact'].forEach((id) => {
@@ -358,6 +395,8 @@ function setupScroll() {
       }),
     });
   });
+  if (!isStill()) aliveImages();
+  setupDone = true;
 }
 
 /* ------------------------------------------------------------------ */
@@ -365,14 +404,12 @@ function setupScroll() {
 /* ------------------------------------------------------------------ */
 const header = $('.site-header');
 let lastY = 0;
-function onScroll() {
+window.addEventListener('scroll', () => {
   const y = window.scrollY;
   header.classList.toggle('is-scrolled', y > 40);
-  const hide = y > lastY && y > 400 && !document.body.classList.contains('menu-open');
-  header.classList.toggle('is-hidden', hide);
+  header.classList.toggle('is-hidden', y > lastY && y > 400 && !document.body.classList.contains('menu-open'));
   lastY = y;
-}
-window.addEventListener('scroll', onScroll, { passive: true });
+}, { passive: true });
 header.addEventListener('focusin', () => header.classList.remove('is-hidden'));
 
 /* ------------------------------------------------------------------ */
@@ -380,22 +417,23 @@ header.addEventListener('focusin', () => header.classList.remove('is-hidden'));
 /* ------------------------------------------------------------------ */
 const burger = $('.burger');
 const menu = $('#mobileMenu');
+const menuOrigin = () => (getLang() === 'en' ? 'calc(100% - 40px) 38px' : '40px 38px');
 function openMenu() {
   menu.hidden = false;
   document.body.classList.add('menu-open');
   burger.setAttribute('aria-expanded', 'true');
-  burger.setAttribute('aria-label', 'סגירת תפריט');
+  burger.setAttribute('aria-label', t('menuClose'));
   lenis?.stop();
-  gsap.fromTo(menu, { clipPath: 'circle(0px at 40px 38px)' }, { clipPath: 'circle(160% at 40px 38px)', duration: isStill() ? 0 : 0.9, ease: 'expo.inOut' });
+  gsap.fromTo(menu, { clipPath: `circle(0px at ${menuOrigin()})` }, { clipPath: `circle(160% at ${menuOrigin()})`, duration: isStill() ? 0 : 0.9, ease: 'expo.inOut' });
   gsap.fromTo('.mobile-menu li a', { yPercent: 110 }, { yPercent: 0, duration: 0.9, stagger: 0.06, ease: 'expo.out', delay: 0.25 });
 }
 function closeMenu() {
   if (menu.hidden) return;
   document.body.classList.remove('menu-open');
   burger.setAttribute('aria-expanded', 'false');
-  burger.setAttribute('aria-label', 'פתיחת תפריט');
+  burger.setAttribute('aria-label', t('menuOpen'));
   lenis?.start();
-  gsap.to(menu, { clipPath: 'circle(0px at 40px 38px)', duration: isStill() ? 0 : 0.6, ease: 'expo.inOut', onComplete: () => (menu.hidden = true) });
+  gsap.to(menu, { clipPath: `circle(0px at ${menuOrigin()})`, duration: isStill() ? 0 : 0.6, ease: 'expo.inOut', onComplete: () => (menu.hidden = true) });
 }
 burger.addEventListener('click', () => (menu.hidden ? openMenu() : closeMenu()));
 document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
@@ -409,7 +447,7 @@ $('[data-more]').addEventListener('click', (e) => {
   const open = more.hidden;
   more.hidden = !open;
   btn.setAttribute('aria-expanded', String(open));
-  btn.textContent = open ? 'סגירה' : 'קראו עוד';
+  moreBtnText();
   if (open) gsap.from(more, { autoAlpha: 0, y: 20, duration: 0.8, ease: 'expo.out' });
   ScrollTrigger.refresh();
 });
@@ -426,27 +464,26 @@ function openConcert(id) {
   dlg.style.setProperty('--c', c.color);
   const im = $('#dlgImg');
   im.src = `/media/${c.poster}-1400.webp`;
-  im.alt = `פוסטר הקונצרט ${c.title}`;
+  im.alt = `${t('posterAlt')} ${L(c.title)}`;
   const past = isPast(c);
   $('#dlgBody').innerHTML = `
-    <p class="concert__disc">DISCOVERIES ${c.no} · העונה ה־36</p>
-    <h2 class="concert__title" id="dlgTitle">${c.title}</h2>
-    <div class="concert__meta"><span class="concert__date">${c.dateLabel}</span><span class="concert__when">${c.day} · 20:00 · ${VENUE}</span></div>
-    <ul class="concert__people">${c.people.map(([r, n]) => `<li><span>${r}</span><b>${n}</b></li>`).join('')}</ul>
-    <p class="eyebrow">בתוכנית</p>
-    <ol class="dlg-program">${c.program.map(([comp, work, note]) => `<li><b>${comp}</b><span>${work}</span>${note ? `<small>${note}</small>` : ''}</li>`).join('')}</ol>
-    ${past ? '<span class="concert__past">✓ הקונצרט התקיים</span>' : `<a class="btn btn--ink btn--lg" style="--hover-bg:${c.color}" href="${c.tickets}" target="_blank" rel="noopener"><span>לרכישת כרטיסים</span><span class="sr-only"> (נפתח בחלון חדש)</span></a>`}`;
+    <p class="concert__disc">DISCOVERIES ${c.no} · ${t('season')}</p>
+    <h2 class="concert__title" id="dlgTitle">${L(c.title)}</h2>
+    <div class="concert__meta"><span class="concert__date">${c.dateLabel}</span><span class="concert__when">${L(DAY)} · 20:00 · ${L(VENUE)}</span></div>
+    <ul class="concert__people">${people(c)}</ul>
+    <p class="eyebrow">${t('program')}</p>
+    <ol class="dlg-program">${c.program.map(([comp, work, note]) => `<li><b>${L(comp)}</b><span>${L(work)}</span>${note ? `<small>${L(note)}</small>` : ''}</li>`).join('')}</ol>
+    ${past ? `<span class="concert__past">${t('past')}</span>` : `<a class="btn btn--ink btn--lg" style="--hover-bg:${c.color}" href="${c.tickets}" target="_blank" rel="noopener"><span>${t('tickets')}</span><span class="sr-only"> ${t('newWin')}</span></a>`}`;
   dlg.showModal();
   lenis?.stop();
   gsap.from('#dlgBody > *', { y: 24, autoAlpha: 0, stagger: 0.05, duration: 0.8, ease: 'expo.out', delay: 0.1 });
 }
-function closeConcert() { dlg.close(); }
 dlg.addEventListener('close', () => { lenis?.start(); lastFocus?.focus({ preventScroll: true }); });
-dlg.addEventListener('click', (e) => { if (e.target === dlg || e.target.closest('[data-close]')) closeConcert(); });
-document.addEventListener('click', (e) => { const t = e.target.closest('[data-open]'); if (t) openConcert(t.dataset.open); });
+dlg.addEventListener('click', (e) => { if (e.target === dlg || e.target.closest('[data-close]')) dlg.close(); });
+document.addEventListener('click', (e) => { const o = e.target.closest('[data-open]'); if (o) openConcert(o.dataset.open); });
 document.addEventListener('keydown', (e) => {
-  const t = e.target.closest?.('[data-open][role="button"]');
-  if (t && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); openConcert(t.dataset.open); }
+  const o = e.target.closest?.('[data-open][role="button"]');
+  if (o && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); openConcert(o.dataset.open); }
 });
 
 /* ------------------------------------------------------------------ */
@@ -464,11 +501,11 @@ $('#contactForm').addEventListener('submit', (e) => {
     field.setAttribute('aria-invalid', String(bad));
     if (bad && ok) { field.focus(); ok = false; }
   });
-  if (!ok) { status.textContent = 'נא למלא שם, אימייל תקין והודעה.'; return; }
+  if (!ok) { status.textContent = t('formErr'); return; }
   const d = Object.fromEntries(new FormData(f));
-  const body = `${d.message}\n\n— ${d.name}\n${d.email}${d.phone ? `\n${d.phone}` : ''}${d.newsletter ? '\n\nמבקש/ת להצטרף לרשימת התפוצה.' : ''}`;
-  window.location.href = `mailto:info.ens21@gmail.com?subject=${encodeURIComponent(`פנייה מהאתר — ${d.name}`)}&body=${encodeURIComponent(body)}`;
-  status.textContent = 'תודה! תוכנת הדואר שלכם נפתחת עם ההודעה — נותר רק ללחוץ ״שליחה״.';
+  const body = `${d.message}\n\n— ${d.name}\n${d.email}${d.phone ? `\n${d.phone}` : ''}${d.newsletter ? `\n\n${t('mailNews')}` : ''}`;
+  window.location.href = `mailto:info.ens21@gmail.com?subject=${encodeURIComponent(`${t('mailSubject')} — ${d.name}`)}&body=${encodeURIComponent(body)}`;
+  status.textContent = t('formOk');
 });
 
 /* ------------------------------------------------------------------ */
@@ -506,15 +543,16 @@ if (finePointer) {
     el.addEventListener('pointerleave', () => gsap.to(el, { x: 0, y: 0, duration: 0.8, ease: 'elastic.out(1, 0.4)' }));
   });
 
-  // concert media tilt
-  $$('.concert__media, .hero__next').forEach((el) => {
-    el.addEventListener('pointermove', (e) => {
+  // image tilt follows the pointer
+  $$('.concert__float, .hero__next-media').forEach((el) => {
+    const host = el.closest('.concert__media, .hero__next');
+    host.addEventListener('pointermove', (e) => {
       if (isStill()) return;
-      const r = el.getBoundingClientRect();
+      const r = host.getBoundingClientRect();
       const px = (e.clientX - r.left) / r.width - 0.5, py = (e.clientY - r.top) / r.height - 0.5;
-      gsap.to(el, { rotateY: px * 6, rotateX: -py * 6, transformPerspective: 900, duration: 0.6, ease: 'power3.out' });
+      gsap.to(host, { rotateY: px * 8, rotateX: -py * 8, transformPerspective: 900, duration: 0.6, ease: 'power3.out' });
     });
-    el.addEventListener('pointerleave', () => gsap.to(el, { rotateY: 0, rotateX: 0, duration: 1, ease: 'power3.out' }));
+    host.addEventListener('pointerleave', () => gsap.to(host, { rotateY: 0, rotateX: 0, duration: 1, ease: 'power3.out' }));
   });
 }
 
@@ -535,9 +573,9 @@ if (a11yState.still) strings.setRunning(false);
 /* ------------------------------------------------------------------ */
 /* Boot                                                                 */
 /* ------------------------------------------------------------------ */
+setLang(getStoredLang() || 'he', { persist: false });
 setupScroll();
 if (location.hash && location.hash.length > 1 && $(location.hash)) {
-  // deep link: skip the intro and jump straight to the section
   intro.remove();
   document.body.classList.remove('is-loading');
   heroIn();

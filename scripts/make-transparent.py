@@ -37,11 +37,24 @@ def to_alpha(im):
     return Image.fromarray(out.astype(np.uint8), 'RGBA')
 
 
+def trim(im, frac=0.012, pad=0.03):
+    # crop away empty transparent margins (thin decorative lines don't count as content)
+    a = np.asarray(im)[..., 3] > 60
+    rows = np.where(a.sum(axis=1) > a.shape[1] * frac)[0]
+    cols = np.where(a.sum(axis=0) > a.shape[0] * frac)[0]
+    if not len(rows) or not len(cols):
+        return im
+    t, b, l, r = rows[0], rows[-1], cols[0], cols[-1]
+    ph, pw = int((b - t) * pad), int((r - l) * pad)
+    return im.crop((max(0, l - pw), max(0, t - ph), min(im.width, r + pw), min(im.height, b + ph)))
+
+
 only = sys.argv[1:]
 for name, src in JOBS.items():
     if only and name not in only:
         continue
-    im = to_alpha(Image.open(src))
+    im = trim(to_alpha(Image.open(src)))
+    print(name, im.size, flush=True)
     for w in (700, 1400):
         ww = min(w, im.width)
         im.resize((ww, round(im.height * ww / im.width)), Image.LANCZOS).save(f'public/media/{name}-{w}.webp', quality=82, method=4)

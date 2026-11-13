@@ -7,35 +7,36 @@
   <meta name="description" content="הצהרת הנגישות של אתר אנסמבל המאה ה־21 ושל הקונצרטים באולם צוקר, היכל התרבות תל אביב." />
   <meta name="theme-color" content="#f3eee6" />
   <link rel="icon" href="/media/favicon.svg" type="image/svg+xml" />
+  <script>
+    try { var q = new URLSearchParams(location.search).get('lang'); var l = q || localStorage.getItem('e21-lang'); if (l === 'en') { document.documentElement.lang = 'en'; document.documentElement.dir = 'ltr'; } } catch (e) {}
+  </script>
 </head>
 <body class="page-doc">
-  <a class="skip-link" href="#main">דילוג לתוכן המרכזי</a>
+  <a class="skip-link" href="#main" data-i18n="skip">דילוג לתוכן המרכזי</a>
   <header class="site-header is-scrolled">
-    <a class="brand" href="/" aria-label="אנסמבל המאה ה־21 — לעמוד הבית">
+    <a class="brand" href="/" aria-label="אנסמבל המאה ה־21 — לעמוד הבית" data-i18n-attr="aria-label:doc.home">
       <img class="brand__logo" src="/media/logo-top.png" width="1375" height="261" alt="" />
     </a>
-    <a class="btn btn--line" href="/">חזרה לאתר</a>
+    <div class="header-tools">
+      <button class="lang-toggle" type="button" data-lang-toggle aria-label="Switch language to English" data-i18n-attr="aria-label:lang.switchLabel"><span data-i18n="lang.switch">EN</span></button>
+      <a class="btn btn--line" href="/" data-i18n="doc.back">חזרה לאתר</a>
+    </div>
   </header>
 
   <main id="main" class="doc section" tabindex="-1">
     <div class="section-head">
       <span class="section-head__no">05</span>
-      <h1 class="section-head__title">הצהרת נגישות</h1>
+      <h1 class="section-head__title" data-i18n="a11y.statement">הצהרת נגישות</h1>
       <span class="section-head__line" aria-hidden="true"></span>
     </div>
 
-    <div class="doc__body">
+    <div class="doc__body" data-doc-lang="he">
       <p class="doc__lead">
         אנסמבל המאה ה־21 רואה חשיבות רבה בהנגשת המוזיקה, הקונצרטים והאתר לכלל הציבור, ובכלל זה לאנשים עם מוגבלות.
         אנו פועלים כדי שהאתר יהיה נוח, שוויוני וקל לשימוש עבור כל הגולשות והגולשים.
       </p>
-
       <h2>רמת הנגישות באתר</h2>
-      <p>
-        האתר הותאם בהתאם לתקנות שוויון זכויות לאנשים עם מוגבלות (התאמות נגישות לשירות), התשע״ג–2013, ולתקן הישראלי ת״י 5568
-        המבוסס על הנחיות WCAG 2.1 ברמה AA, ככל שהדבר ניתן.
-      </p>
-
+      <p>האתר הותאם בהתאם לתקנות שוויון זכויות לאנשים עם מוגבלות (התאמות נגישות לשירות), התשע״ג–2013, ולתקן הישראלי ת״י 5568 המבוסס על הנחיות WCAG 2.1 ברמה AA, ככל שהדבר ניתן.</p>
       <h2>מה עשינו באתר</h2>
       <ul>
         <li>מבנה סמנטי של כותרות, אזורים וניווט, המותאם לקוראי מסך.</li>
@@ -44,70 +45,91 @@
         <li>התאמה מלאה לטלפונים ניידים ולמסכים בגדלים שונים.</li>
         <li>כיבוד הגדרת ״הפחתת תנועה״ של מערכת ההפעלה, ואפשרות לעצור את כל האנימציות.</li>
         <li>המוזיקה ברקע אינה מתנגנת אוטומטית — היא מופעלת רק בבחירת הגולש, וניתן להשתיק אותה בכל רגע.</li>
-        <li>תפריט נגישות (הכפתור הכחול בפינת המסך) הכולל: שינוי גודל טקסט, ניגודיות גבוהה, רקע כהה, גווני אפור, הדגשת קישורים, גופן קריא, ריווח טקסט, סמן גדול ועצירת אנימציות.</li>
+        <li>האתר זמין בעברית ובאנגלית.</li>
+        <li>תפריט נגישות (הכפתור העגול בפינת המסך) הכולל: שינוי גודל טקסט, ניגודיות גבוהה, רקע כהה, גווני אפור, הדגשת קישורים, גופן קריא, ריווח טקסט, סמן גדול ועצירת אנימציות.</li>
       </ul>
-
       <h2>נגישות הקונצרטים</h2>
-      <p>
-        הקונצרטים של סדרת ״תגליות״ מתקיימים באולם צוקר, היכל התרבות תל אביב (כיכר הבימה). האולם נגיש לאנשים עם מוגבלות,
-        כולל מקומות ישיבה מותאמים לכיסאות גלגלים. להזמנת מקומות נגישים ולמידע נוסף ניתן לפנות לקופת היכל התרבות
-        בטלפון <a href="tel:036822403" dir="ltr">03-6822403</a> או אלינו.
-      </p>
-
-      <h2>הסדרי נגישות ופרטי רכז/ת הנגישות</h2>
-      <p>
-        נתקלתם בבעיה? יש לכם הצעה לשיפור? נשמח לשמוע ולסייע. ניתן לפנות אלינו:
-      </p>
+      <p>הקונצרטים של סדרת ״תגליות״ מתקיימים באולם צוקר, היכל התרבות תל אביב (כיכר הבימה). האולם נגיש לאנשים עם מוגבלות, כולל מקומות ישיבה מותאמים לכיסאות גלגלים. להזמנת מקומות נגישים ולמידע נוסף ניתן לפנות לקופת היכל התרבות בטלפון <a href="tel:036822403" dir="ltr">03-6822403</a> או אלינו.</p>
+      <h2>הסדרי נגישות ופרטי קשר</h2>
+      <p>נתקלתם בבעיה? יש לכם הצעה לשיפור? נשמח לשמוע ולסייע. ניתן לפנות אלינו:</p>
       <ul>
         <li>אימייל: <a href="mailto:info.ens21@gmail.com">info.ens21@gmail.com</a></li>
         <li>WhatsApp: <a href="https://wa.me/972535554072" dir="ltr">+972-53-5554072</a></li>
       </ul>
       <p>בפנייה, נא לציין את תיאור הבעיה, העמוד שבו נתקלתם בה וסוג הדפדפן / טכנולוגיה מסייעת שבה השתמשתם.</p>
-
       <h2>סייג</h2>
-      <p>
-        על אף מאמצינו להנגיש את כלל רכיבי האתר, ייתכן שיתגלו חלקים שטרם הונגשו במלואם, או תכנים של צד שלישי
-        (כגון מערכת רכישת הכרטיסים החיצונית) שאינם בשליטתנו. אנו ממשיכים לשפר את נגישות האתר באופן שוטף.
-      </p>
+      <p>על אף מאמצינו להנגיש את כלל רכיבי האתר, ייתכן שיתגלו חלקים שטרם הונגשו במלואם, או תכנים של צד שלישי (כגון מערכת רכישת הכרטיסים החיצונית) שאינם בשליטתנו. אנו ממשיכים לשפר את נגישות האתר באופן שוטף.</p>
       <p class="muted">הצהרה זו עודכנה לאחרונה: נובמבר 2026.</p>
+    </div>
+
+    <div class="doc__body" data-doc-lang="en" lang="en" hidden>
+      <p class="doc__lead">
+        The Israel Contemporary Players are committed to making our music, our concerts and this website accessible to everyone,
+        including people with disabilities. We work to keep the site comfortable, equal and easy to use for all visitors.
+      </p>
+      <h2>Accessibility level</h2>
+      <p>The site has been adapted in accordance with the Israeli Equal Rights for Persons with Disabilities Regulations (Service Accessibility Adjustments), 2013, and Israeli Standard IS 5568, which is based on the WCAG 2.1 guidelines at level AA, as far as possible.</p>
+      <h2>What we have done</h2>
+      <ul>
+        <li>Semantic structure of headings, regions and navigation, suited to screen readers.</li>
+        <li>Full keyboard navigation, including a “Skip to main content” link and clear focus indication.</li>
+        <li>Alternative text for meaningful images; decorative images are hidden from screen readers.</li>
+        <li>Fully responsive layout for mobile phones and screens of all sizes.</li>
+        <li>The operating system’s “reduce motion” setting is respected, and all animations can be stopped.</li>
+        <li>Background music never plays automatically — it starts only when the visitor chooses it and can be muted at any time.</li>
+        <li>The site is available in Hebrew and English.</li>
+        <li>An accessibility menu (the round button in the corner of the screen) offering: text size, high contrast, dark background, grayscale, link highlighting, a readable font, text spacing, a large cursor and stopping animations.</li>
+      </ul>
+      <h2>Concert accessibility</h2>
+      <p>The “Discoveries” concerts take place at Zucker Hall, Heichal Hatarbut Tel Aviv (Habima Square). The hall is accessible to people with disabilities, including wheelchair seating. To book accessible seats or for more information, please contact the Heichal Hatarbut box office at <a href="tel:036822403" dir="ltr">03-6822403</a> or contact us.</p>
+      <h2>Contact</h2>
+      <p>Found a problem? Have a suggestion? We would be glad to hear from you and help:</p>
+      <ul>
+        <li>E-mail: <a href="mailto:info.ens21@gmail.com">info.ens21@gmail.com</a></li>
+        <li>WhatsApp: <a href="https://wa.me/972535554072" dir="ltr">+972-53-5554072</a></li>
+      </ul>
+      <p>Please describe the problem, the page where you found it and the browser or assistive technology you were using.</p>
+      <h2>Disclaimer</h2>
+      <p>Despite our efforts, some parts of the site may not yet be fully accessible, and third-party content (such as the external ticketing system) is beyond our control. We keep improving the site’s accessibility on an ongoing basis.</p>
+      <p class="muted">This statement was last updated in November 2026.</p>
     </div>
   </main>
 
   <footer class="footer">
     <div class="footer__bottom">
-      <p>© 2026 אנסמבל המאה ה־21. כל הזכויות שמורות.</p>
-      <p><a href="/">לעמוד הבית</a></p>
+      <p data-i18n="doc.rights">© 2026 אנסמבל המאה ה־21. כל הזכויות שמורות.</p>
+      <p><a href="/" data-i18n="doc.homeLink">לעמוד הבית</a></p>
     </div>
   </footer>
 
-  <button class="a11y-fab" type="button" aria-expanded="false" aria-controls="a11yPanel" aria-label="תפריט נגישות">
+  <button class="a11y-fab" type="button" aria-expanded="false" aria-controls="a11yPanel" aria-label="תפריט נגישות" data-i18n-attr="aria-label:a11y.fab">
     <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="4" r="2" /><path d="M4 8.5c2.6.8 5.3 1.2 8 1.2s5.4-.4 8-1.2M12 9.7V15m0 0-3.5 6.5M12 15l3.5 6.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" /></svg>
   </button>
-  <div class="a11y-panel" id="a11yPanel" role="region" aria-label="אפשרויות נגישות" hidden>
+  <div class="a11y-panel" id="a11yPanel" role="region" aria-label="אפשרויות נגישות" data-i18n-attr="aria-label:a11y.panel" hidden>
     <div class="a11y-panel__head">
-      <h2>נגישות</h2>
-      <button type="button" class="a11y-panel__close" aria-label="סגירת תפריט נגישות" data-a11y-close>✕</button>
+      <h2 data-i18n="a11y.title">נגישות</h2>
+      <button type="button" class="a11y-panel__close" aria-label="סגירת תפריט נגישות" data-i18n-attr="aria-label:a11y.closeLbl" data-a11y-close>✕</button>
     </div>
-    <div class="a11y-panel__size" role="group" aria-label="גודל טקסט">
-      <span>גודל טקסט</span>
+    <div class="a11y-panel__size" role="group" aria-label="גודל טקסט" data-i18n-attr="aria-label:a11y.size">
+      <span data-i18n="a11y.size">גודל טקסט</span>
       <div>
-        <button type="button" data-a11y-size="-1" aria-label="הקטנת טקסט">א−</button>
+        <button type="button" data-a11y-size="-1" aria-label="הקטנת טקסט" data-i18n-attr="aria-label:a11y.smaller">A−</button>
         <output id="a11ySizeOut">100%</output>
-        <button type="button" data-a11y-size="1" aria-label="הגדלת טקסט">א+</button>
+        <button type="button" data-a11y-size="1" aria-label="הגדלת טקסט" data-i18n-attr="aria-label:a11y.bigger">A+</button>
       </div>
     </div>
     <div class="a11y-panel__grid">
-      <button type="button" aria-pressed="false" data-a11y="contrast">ניגודיות גבוהה</button>
-      <button type="button" aria-pressed="false" data-a11y="dark">רקע כהה</button>
-      <button type="button" aria-pressed="false" data-a11y="grayscale">גווני אפור</button>
-      <button type="button" aria-pressed="false" data-a11y="links">הדגשת קישורים</button>
-      <button type="button" aria-pressed="false" data-a11y="readable">גופן קריא</button>
-      <button type="button" aria-pressed="false" data-a11y="still">עצירת אנימציות</button>
-      <button type="button" aria-pressed="false" data-a11y="spacing">ריווח טקסט</button>
-      <button type="button" aria-pressed="false" data-a11y="cursor">סמן גדול</button>
+      <button type="button" aria-pressed="false" data-a11y="contrast" data-i18n="a11y.contrast">ניגודיות גבוהה</button>
+      <button type="button" aria-pressed="false" data-a11y="dark" data-i18n="a11y.dark">רקע כהה</button>
+      <button type="button" aria-pressed="false" data-a11y="grayscale" data-i18n="a11y.grayscale">גווני אפור</button>
+      <button type="button" aria-pressed="false" data-a11y="links" data-i18n="a11y.links">הדגשת קישורים</button>
+      <button type="button" aria-pressed="false" data-a11y="readable" data-i18n="a11y.readable">גופן קריא</button>
+      <button type="button" aria-pressed="false" data-a11y="still" data-i18n="a11y.still">עצירת אנימציות</button>
+      <button type="button" aria-pressed="false" data-a11y="spacing" data-i18n="a11y.spacing">ריווח טקסט</button>
+      <button type="button" aria-pressed="false" data-a11y="cursor" data-i18n="a11y.cursor">סמן גדול</button>
     </div>
     <div class="a11y-panel__foot">
-      <button type="button" data-a11y-reset>איפוס הגדרות</button>
+      <button type="button" data-a11y-reset data-i18n="a11y.reset">איפוס הגדרות</button>
     </div>
   </div>
   <script type="module" src="/src/doc.js"></script>
