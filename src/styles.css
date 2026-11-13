@@ -668,7 +668,7 @@ html.a11y-still .hero__strings { display: none; }
    Square buttons everywhere
    ========================================================= */
 button, .btn, .btn::before, .intro__btn, .sound-toggle, .burger, .socials a, .concert__past,
-.concert-dialog__close, .a11y-panel, .a11y-panel button, .skip-link, .lang-toggle, .cbtn { border-radius: 0 !important; }
+.concert-dialog__close, .a11y-panel, .a11y-panel button, .skip-link, .lang-toggle { border-radius: 0 !important; }
 .a11y-fab { border-radius: 50% !important; }
 
 /* =========================================================
@@ -712,7 +712,9 @@ button, .btn, .btn::before, .intro__btn, .sound-toggle, .burger, .socials a, .co
 
 /* intro language choice */
 .intro__actions { flex-direction: column; align-items: center; gap: 18px; }
-.intro__enter { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.intro__enter { display: flex; gap: 10px; justify-content: center; flex-wrap: nowrap; }
+.intro__enter .intro__btn { padding: .75em 1.25em; font-size: .92rem; white-space: nowrap; }
+@media (max-width: 420px) { .intro__enter .intro__btn { padding: .75em .9em; font-size: .84rem; gap: .5em; } }
 .intro__langs { display: flex; align-items: center; gap: 10px; color: rgba(243,238,230,.5); font-size: .95rem; }
 .intro__lang { background: none; border: 0; color: rgba(243,238,230,.55); cursor: pointer; padding: 6px 4px; font-size: 1rem; border-bottom: 1px solid transparent; }
 .intro__lang[aria-pressed='true'] { color: #f3eee6; border-bottom-color: var(--gold); }
@@ -721,18 +723,15 @@ button, .btn, .btn::before, .intro__btn, .sound-toggle, .burger, .socials a, .co
 /* =========================================================
    Contact buttons (WhatsApp / e-mail)
    ========================================================= */
-.contact__btns { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 0 0 22px; }
+.contact__btns { display: flex; gap: 14px; margin: 0 0 26px; }
 .cbtn {
-  display: flex; align-items: center; gap: 14px; padding: 16px 18px; text-decoration: none;
-  border: 1px solid rgba(243,238,230,.3); color: var(--paper); transition: background .35s var(--ease), color .35s, border-color .35s;
+  display: grid; place-items: center; width: 64px; height: 64px; border-radius: 50%; text-decoration: none;
+  border: 1px solid rgba(243,238,230,.35); color: var(--paper); transition: background .35s var(--ease), color .35s, border-color .35s, transform .35s var(--ease);
 }
-.cbtn svg { width: 30px; height: 30px; flex: none; }
-.cbtn span { display: flex; flex-direction: column; line-height: 1.25; min-width: 0; }
-.cbtn b { font-weight: 500; font-size: 1.05rem; }
-.cbtn small { opacity: .65; font-size: .8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cbtn:hover { transform: translateY(-3px); }
+.cbtn svg { width: 28px; height: 28px; }
 .cbtn--wa:hover, .cbtn--wa:focus-visible { background: #25d366; border-color: #25d366; color: #0b2b17; }
 .cbtn--mail:hover, .cbtn--mail:focus-visible { background: var(--paper); border-color: var(--paper); color: var(--ink); }
-@media (max-width: 480px) { .contact__btns { grid-template-columns: 1fr; } }
 
 /* =========================================================
    Mobile hero buttons side by side
@@ -754,3 +753,15 @@ html[lang='en'] .ticket-row a:hover .ticket-row__go::after { transform: translat
 html[lang='en'] .ticket-row a::before { transform-origin: right; }
 html[lang='en'] .about__statement { max-width: 28ch; }
 html[lang='en'] .mobile-menu { clip-path: circle(0 at 40px 38px); }
+
+/* =========================================================
+   Mobile header: menu at the start, logo centred, sound + language at the end
+   ========================================================= */
+@media (max-width: 960px) {
+  .site-header { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 0; }
+  .header-tools { display: contents; }
+  .brand { grid-column: 2; grid-row: 1; justify-self: center; }
+  .burger { grid-column: 1; grid-row: 1; justify-self: start; margin-inline-start: -10px; }
+  .lang-toggle { grid-column: 3; grid-row: 1; justify-self: end; border: 0 !important; padding: 0 4px; min-width: 32px; height: 44px; }
+  .sound-toggle { grid-column: 3; grid-row: 1; justify-self: end; margin-inline-end: 38px; }
+}

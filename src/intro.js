@@ -4,7 +4,7 @@ import { LOGO_PATH, LOGO_VIEWBOX } from './logo-path.js';
 
 const COLORS = ['#c8202f', '#7b2a6e', '#e2ac25', '#c08a57', '#d4b06a', '#a86a45'];
 
-export function createIntro(canvas, { getLevel = () => 0, reduced = false } = {}) {
+export function createIntro(canvas, { getLevel = () => 0, reduced = false, getArea = null } = {}) {
   const ctx = canvas.getContext('2d');
   let w = 0, h = 0, dpr = 1;
   let particles = [];
@@ -15,10 +15,17 @@ export function createIntro(canvas, { getLevel = () => 0, reduced = false } = {}
   let burstT = 0;
   const pointer = { x: -9999, y: -9999, active: false };
   const [vx, vy, vw, vh] = LOGO_VIEWBOX.split(' ').map(Number);
+  let area = { top: 0, bottom: 0, cy: 0 };
+  function measure() {
+    const a = getArea ? getArea() : null;
+    const top = a ? a.top : h * 0.08;
+    const bottom = a ? a.bottom : h * 0.6;
+    area = { top, bottom, cy: (top + bottom) / 2 };
+  }
 
   function sampleLogo() {
     const isMobile = w < 700;
-    const logoH = Math.min(h * (isMobile ? 0.34 : 0.44), w * 0.62);
+    const logoH = Math.max(80, Math.min((area.bottom - area.top) * 0.86, w * 0.62, h * 0.46));
     const scale = logoH / vh;
     const logoW = vw * scale;
     const off = document.createElement('canvas');
@@ -33,7 +40,7 @@ export function createIntro(canvas, { getLevel = () => 0, reduced = false } = {}
     for (let y = 0; y < off.height; y += step) {
       for (let x = 0; x < off.width; x += step) {
         const i = (Math.floor(y) * off.width + Math.floor(x)) * 4 + 3;
-        if (data[i] > 128) pts.push([x + (w - logoW) / 2, y + (h - logoH) / 2 - h * (isMobile ? 0.08 : 0.06)]);
+        if (data[i] > 128) pts.push([x + (w - logoW) / 2, y + area.cy - logoH / 2]);
       }
     }
     // shuffle
@@ -47,6 +54,7 @@ export function createIntro(canvas, { getLevel = () => 0, reduced = false } = {}
     w = canvas.clientWidth; h = canvas.clientHeight;
     canvas.width = w * dpr; canvas.height = h * dpr;
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    measure();
     targets = sampleLogo();
     const old = particles;
     particles = targets.map((t, i) => {
@@ -71,8 +79,8 @@ export function createIntro(canvas, { getLevel = () => 0, reduced = false } = {}
   }
 
   function drawOrbits(t, level) {
-    const cx = w / 2, cy = h / 2 - h * 0.06;
-    const base = Math.min(w, h);
+    const cx = w / 2, cy = area.cy;
+    const base = Math.min(w, (area.bottom - area.top) * 2.1);
     ctx.save();
     ctx.translate(cx, cy);
     const rings = [

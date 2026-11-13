@@ -247,7 +247,12 @@ let introFx = null;
 
 function runIntro() {
   const skip = isStill();
-  introFx = createIntro($('.intro__canvas'), { getLevel: () => audio.level(), reduced: isStill() });
+  introFx = createIntro($('.intro__canvas'), {
+    getLevel: () => audio.level(),
+    reduced: isStill(),
+    // the logo lives between the top bar and the kicker line
+    getArea: () => ({ top: $('.intro__top').getBoundingClientRect().bottom + 12, bottom: $('.intro__kicker').getBoundingClientRect().top - 18 }),
+  });
   const counter = $('#introCount');
   const tl = gsap.timeline();
   tl.to('[data-intro-reveal]', { opacity: 1, duration: 1.2, stagger: 0.15, ease: 'power2.out' }, 0.3);
@@ -417,7 +422,7 @@ header.addEventListener('focusin', () => header.classList.remove('is-hidden'));
 /* ------------------------------------------------------------------ */
 const burger = $('.burger');
 const menu = $('#mobileMenu');
-const menuOrigin = () => (getLang() === 'en' ? 'calc(100% - 40px) 38px' : '40px 38px');
+const menuOrigin = () => (getLang() === 'en' ? '38px 32px' : 'calc(100% - 38px) 32px');
 function openMenu() {
   menu.hidden = false;
   document.body.classList.add('menu-open');
