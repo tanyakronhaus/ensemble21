@@ -21,6 +21,7 @@ import { createAudio } from './audio.js';
 import { renderScore, COPIES } from './score.js';
 import { initA11y, applyStoredA11y } from './a11y.js';
 import { setLang, getLang, getStoredLang, onLangChange, L, t } from './i18n.js';
+import YT from './youtube.json';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -109,6 +110,45 @@ function listsTexts() {
   $('#boardList').innerHTML = BOARD.map((n) => `<li>${L(n)}</li>`).join('');
 }
 
+// YouTube — click-to-load player (nothing from YouTube loads until a visitor presses play)
+const UPLOADS = 'UUKnjkzokNy3O1K2ccuJL1PA'; // the channel's "uploads" playlist
+const ytVideos = (YT.videos || []).slice(0, 9);
+let currentVideo = ytVideos[0]?.id || null;
+const ytSrc = (id) => (id
+  ? `https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&playsinline=1`
+  : `https://www.youtube-nocookie.com/embed/videoseries?list=${UPLOADS}&autoplay=1&rel=0&playsinline=1`);
+const PLAY_ICON = '<svg viewBox="0 0 68 68" aria-hidden="true"><circle cx="34" cy="34" r="33" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M27 21l22 13-22 13z" fill="currentColor"/></svg>';
+function videoFacade() {
+  const v = ytVideos.find((x) => x.id === currentVideo);
+  const thumb = v ? `<img src="https://i.ytimg.com/vi/${v.id}/maxresdefault.jpg" onerror="this.onerror=null;this.src='https://i.ytimg.com/vi/${v.id}/hqdefault.jpg'" alt="" loading="lazy" />` : '<img src="/media/og-1400.webp" alt="" loading="lazy" />';
+  $('#videoPlayer').innerHTML = `
+    <button class="video-facade" type="button" data-play-video aria-label="${t('play')}${v ? `: ${v.title}` : ` — ${t('channelVideos')}`}">
+      ${thumb}<span class="video-facade__shade"></span>
+      <span class="video-facade__play">${PLAY_ICON}</span>
+      ${v ? `<span class="video-facade__title">${v.title}</span>` : `<span class="video-facade__title">${t('channelVideos')}</span>`}
+    </button>`;
+}
+function playVideo(id = currentVideo) {
+  currentVideo = id;
+  audio.pause(); // never let the background music play over a video
+  $('#videoPlayer').innerHTML = `<iframe src="${ytSrc(id)}" title="YouTube" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe>`;
+  $$('#videoGrid [data-video]').forEach((b) => b.setAttribute('aria-current', String(b.dataset.video === id)));
+}
+function videoGrid() {
+  $('#videoGrid').innerHTML = ytVideos.slice(1).map((v) => `
+    <li><button type="button" class="video-card" data-video="${v.id}">
+      <span class="video-card__img"><img src="https://i.ytimg.com/vi/${v.id}/mqdefault.jpg" alt="" loading="lazy" /><span class="video-card__play">${PLAY_ICON}</span></span>
+      <span class="video-card__title">${v.title}</span>
+    </button></li>`).join('');
+}
+document.addEventListener('click', (e) => {
+  if (e.target.closest('[data-play-video]')) { playVideo(); return; }
+  const card = e.target.closest('[data-video]');
+  if (card) { playVideo(card.dataset.video); scrollToTarget($('#videoPlayer')); }
+});
+// if a visitor turns the music back on, stop the video
+function stopVideoIfMusic(p) { if (p && $('#videoPlayer iframe')) videoFacade(); }
+
 // Hero — next concert
 const heroNext = $('#heroNext');
 heroNext.style.setProperty('--c', next.color);
@@ -154,6 +194,7 @@ audio.onChange((p) => {
   soundBtn.setAttribute('aria-pressed', String(p));
   soundBtn.classList.toggle('is-playing', p);
   soundLabel();
+  stopVideoIfMusic(p);
 });
 (function meter() {
   const b = audio.bands(4);
@@ -216,6 +257,8 @@ function applyLangTexts() {
   listsTexts();
   heroTexts();
   moreBtnText();
+  if (!$('#videoPlayer iframe')) videoFacade();
+  if (!$('#videoGrid').children.length) videoGrid();
   soundLabel();
   burger.setAttribute('aria-label', menu.hidden ? t('menuOpen') : t('menuClose'));
   $$('[data-set-lang]').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.setLang === getLang())));
@@ -388,7 +431,7 @@ function setupScroll() {
   gsap.fromTo('.subs__visual img', { yPercent: -8, scale: 1.15 }, { yPercent: 8, ease: 'none', scrollTrigger: { trigger: '.subs', start: 'top bottom', end: 'bottom top', scrub: true } });
 
   // Active nav
-  ['about', 'season', 'tickets', 'contact'].forEach((id) => {
+  ['about', 'season', 'tickets', 'contact', 'videos'].forEach((id) => {
     ScrollTrigger.create({
       trigger: `#${id}`, start: 'top 50%', end: 'bottom 50%',
       onToggle: (self) => $$(`[data-nav][href="#${id}"]`).forEach((a) => {

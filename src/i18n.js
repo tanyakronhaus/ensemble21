@@ -21,6 +21,10 @@ export const EN = {
   'nav.tickets': 'Tickets',
   'nav.contact': 'Contact',
   'nav.a11y': 'Accessibility',
+  'nav.videos': 'YouTube',
+  'videos.title': 'YouTube Channel',
+  'videos.lead': 'Concerts, premieres and moments from the stage — watch recordings of the Israel Contemporary Players right here.',
+  'videos.channel': '<span>Open the channel on YouTube</span><span class="sr-only"> (opens in a new window)</span>',
   'menu.label': 'Mobile menu',
   'sound.label': 'Sound',
   'hero.eyebrow': 'Israel Contemporary Players · since 1991',
@@ -136,6 +140,7 @@ export const UI = {
     formErr: 'נא למלא שם, אימייל תקין והודעה.', formOk: 'תודה! תוכנת הדואר שלכם נפתחת עם ההודעה — נותר רק ללחוץ ״שליחה״.',
     mailSubject: 'פנייה מהאתר', mailNews: 'מבקש/ת להצטרף לרשימת התפוצה.',
     scoreCaption: 'אריק סאטי — <em>ג׳ימנופדיה מס׳ 1</em> (1888)',
+    play: 'הפעלת הסרטון', channelVideos: 'כל הסרטונים בערוץ', latest: 'סרטונים אחרונים',
   },
   en: {
     tickets: 'Buy tickets', full: 'Full programme', past: '✓ This concert has taken place', pastShort: 'Past', ticketsShort: 'Tickets',
@@ -146,6 +151,7 @@ export const UI = {
     formErr: 'Please fill in your name, a valid e-mail and a message.', formOk: 'Thank you! Your e-mail app is opening with the message — just press “Send”.',
     mailSubject: 'Message from the website', mailNews: 'Please add me to the mailing list.',
     scoreCaption: 'Erik Satie — <em>Gymnopédie No. 1</em> (1888)',
+    play: 'Play video', channelVideos: 'All channel videos', latest: 'Latest videos',
   },
 };
 

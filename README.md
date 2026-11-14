@@ -19,6 +19,7 @@ npm run build    # בנייה לתיקיית dist
 - `src/a11y.js` — תפריט נגישות
 - `src/i18n.js` — עברית / English: כל הטקסטים באנגלית (העברית כתובה ישירות ב־HTML)
 - `scripts/build-assets.mjs` — ממיר את התמונות מ־`images/` לקבצי webp מותאמים ב־`public/media/`
+- `scripts/fetch-youtube.mjs` — בזמן הבנייה ב־Vercel מושך את הסרטונים האחרונים מערוץ היוטיוב (אם נכשל — מוטמע כל הערוץ כרשימת ניגון)
 - `scripts/make-transparent.py` — מסיר את הרקע הבהיר מתמונות המופעים (שקיפות אמיתית) וחותך שוליים ריקים
 
 ## Vercel
