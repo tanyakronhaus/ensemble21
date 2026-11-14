@@ -765,3 +765,44 @@ html[lang='en'] .mobile-menu { clip-path: circle(0 at 40px 38px); }
   .lang-toggle { grid-column: 3; grid-row: 1; justify-self: end; border: 0 !important; padding: 0 4px; min-width: 32px; height: 44px; }
   .sound-toggle { grid-column: 3; grid-row: 1; justify-self: end; margin-inline-end: 38px; }
 }
+
+/* =========================================================
+   Concert dialog — everything fits on screen, poster never cropped
+   ========================================================= */
+.concert-dialog { width: min(1120px, 94vw); height: min(88svh, 820px); max-height: none; }
+.concert-dialog__inner { grid-template-columns: auto minmax(0, 1fr); height: 100%; max-height: none; }
+.concert-dialog__media { height: 100%; background: transparent; display: flex; align-items: center; justify-content: center; }
+.concert-dialog__media img { width: auto; height: 100%; max-width: 46vw; object-fit: contain; display: block; }
+.concert-dialog__body { display: flex; flex-direction: column; justify-content: center; padding: clamp(20px, 3vw, 40px); padding-top: 56px; }
+.concert-dialog__body .concert__disc { margin-bottom: 6px; }
+.concert-dialog__body .concert__title { font-size: clamp(1.8rem, 3.2vw, 2.8rem); margin-bottom: 10px; }
+.concert-dialog__body .concert__meta { padding: 10px 0; margin-bottom: 12px; }
+.concert-dialog__body .concert__date { font-size: 1.5rem; }
+.concert-dialog__body .concert__people { margin-bottom: 14px; gap: 6px 18px; }
+.concert-dialog__body .eyebrow { margin-bottom: 4px; }
+.dlg-program { margin: 6px 0 18px; }
+.dlg-program li { padding: 8px 0; display: flex; flex-wrap: wrap; align-items: baseline; gap: 2px 10px; line-height: 1.35; }
+.dlg-program b { display: inline; font-size: 1rem; }
+.dlg-program span { font-size: 1rem; color: var(--ink-2); }
+.dlg-program small { flex-basis: 100%; margin-top: 0; font-size: .78rem; }
+.concert-dialog__body .btn--lg { align-self: flex-start; padding: .9em 1.6em; }
+@media (max-width: 760px) {
+  .concert-dialog { width: 100vw; height: 100svh; }
+  .concert-dialog__inner { grid-template-columns: 1fr; grid-template-rows: auto minmax(0, 1fr); overflow: hidden; }
+  .concert-dialog__media { height: 24svh; padding-top: 10px; }
+  .concert-dialog__body .concert__disc { font-size: .68rem; }
+  .concert-dialog__body .concert__meta { padding: 6px 0; margin-bottom: 8px; }
+  .concert-dialog__body .concert__date { font-size: 1.25rem; }
+  .concert-dialog__body .concert__when { font-size: .8rem; }
+  .concert-dialog__body .concert__people { gap: 2px 14px; margin-bottom: 8px; }
+  .concert-dialog__body .concert__people li { line-height: 1.2; }
+  .concert-dialog__body .eyebrow { font-size: .7rem; }
+  .dlg-program { margin: 4px 0 12px; }
+  .dlg-program b, .dlg-program span { font-size: .92rem; }
+  .concert-dialog__media img { max-width: 100%; }
+  .concert-dialog__body { justify-content: flex-start; padding: 10px 16px 14px; overflow-y: auto; }
+  .concert-dialog__body .concert__title { font-size: 1.5rem; margin-bottom: 6px; }
+  .concert-dialog__body .concert__people { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .dlg-program li { padding: 6px 0; }
+  .concert-dialog__body .btn--lg { align-self: stretch; }
+}
