@@ -55,7 +55,7 @@ const people = (c) => c.people.map(([r, n]) => `<li><span>${L(r)}</span><b>${L(n
 // Season — structure
 $('#seasonTrack').innerHTML = CONCERTS.map((c) => `
   <li class="concert" id="concert-${c.id}" style="--c:${c.color};--t:${c.tint}" data-concert="${c.id}">
-    <div class="concert__media" data-open="${c.id}" role="button" tabindex="0">
+    <div class="concert__media">
       <div class="concert__float">${img(c.img, '')}</div>
       <span class="concert__dot" aria-hidden="true"></span>
       <span class="concert__ring" aria-hidden="true"></span>
@@ -76,9 +76,6 @@ function concertTexts() {
   CONCERTS.forEach((c) => {
     const el = $(`#concert-${c.id}`);
     const past = isPast(c);
-    const media = $('.concert__media', el);
-    media.dataset.cursor = t('cursorDetails');
-    media.setAttribute('aria-label', `${t('details')}: ${L(c.title)}`);
     $('.concert__disc', el).textContent = `DISCOVERIES ${c.no} · ${c.title.en.toUpperCase()}`;
     $('.concert__title', el).textContent = L(c.title);
     $('.concert__tag', el).textContent = L(c.tagline);
