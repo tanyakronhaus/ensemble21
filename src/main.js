@@ -501,6 +501,13 @@ $('[data-more]').addEventListener('click', (e) => {
 /* Concert dialog                                                       */
 /* ------------------------------------------------------------------ */
 const dlg = $('#concertDialog');
+// iOS Safari: size the dialog to the real visible screen (100vh/dvh are unreliable there)
+function setDlgHeight() {
+  const h = window.visualViewport ? window.visualViewport.height : window.innerHeight;
+  root.style.setProperty('--dlg-h', `${Math.round(h)}px`);
+}
+window.addEventListener('resize', setDlgHeight);
+window.visualViewport?.addEventListener('resize', setDlgHeight);
 let lastFocus = null;
 function openConcert(id) {
   const c = CONCERTS.find((x) => x.id === id);
@@ -521,6 +528,7 @@ function openConcert(id) {
     `;
   $('#dlgCta').innerHTML = past ? `<span class="concert__past">${t('past')}</span>` : `<a class="btn btn--ink btn--lg" style="--hover-bg:${c.color}" href="${c.tickets}" target="_blank" rel="noopener"><span>${t('tickets')}</span><span class="sr-only"> ${t('newWin')}</span></a>`;
   $('#dlgBody').scrollTop = 0;
+  setDlgHeight();
   dlg.showModal();
   // focus the content (not the close button), so no focus ring flashes on open
   $('#dlgBody').focus({ preventScroll: true });
