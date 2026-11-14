@@ -15,7 +15,7 @@ npm run build    # בנייה לתיקיית dist
 - `src/data.js` — **כל נתוני הקונצרטים, קישורי הכרטיסים, המוזיקאים והצוות** (כאן מעדכנים תוכן)
 - `src/intro.js` — אנימציית הפתיח (חלקיקים שמתחברים ללוגו XXI)
 - `src/strings.js` — "מיתרים" אינטראקטיביים ברקע ה־hero
-- `src/audio.js` — מוזיקת רקע + ניתוח אודיו לוויז׳ואל
+- `src/audio.js` — מוזיקת רקע + ניתוח אודיו לוויז׳ואל. הקובץ שמתנגן מוגדר ב־`index.html` (תגית `bgAudio`); כרגע `public/audio/background-3.mp3`, ו־`phoenix.mp3` נשמר כחלופה
 - `src/a11y.js` — תפריט נגישות
 - `src/i18n.js` — עברית / English: כל הטקסטים באנגלית (העברית כתובה ישירות ב־HTML)
 - `scripts/build-assets.mjs` — ממיר את התמונות מ־`images/` לקבצי webp מותאמים ב־`public/media/`
