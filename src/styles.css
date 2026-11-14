@@ -819,3 +819,18 @@ html[lang='en'] .mobile-menu { clip-path: circle(0 at 40px 38px); }
   .concert-dialog__body { overflow-y: auto; -webkit-overflow-scrolling: touch; }
   .concert-dialog__close { top: 10px; inset-inline-end: 10px; background: rgba(243,238,230,.92); }
 }
+
+/* dialog: thin round close button, ticket button always in view */
+.concert-dialog__close {
+  border-radius: 50% !important; width: 42px; height: 42px; padding: 0; display: grid; place-items: center;
+  border: 1px solid rgba(20,17,17,.25); background: rgba(243,238,230,.85); color: var(--ink);
+  transition: border-color .3s, transform .4s var(--ease);
+}
+.concert-dialog__close svg { width: 20px; height: 20px; }
+.concert-dialog__close:hover { border-color: var(--ink); transform: rotate(90deg); }
+.concert-dialog__close:focus { outline: none; }
+.concert-dialog__close:focus-visible { outline: 2px solid var(--c); outline-offset: 2px; }
+.concert-dialog__body:focus { outline: none; }
+.dlg-cta { position: sticky; bottom: 0; z-index: 2; padding: 12px 0 2px; background: linear-gradient(to bottom, transparent, var(--paper) 30%); }
+.dlg-cta .btn { width: 100%; }
+@media (min-width: 761px) { .dlg-cta .btn { width: auto; } }

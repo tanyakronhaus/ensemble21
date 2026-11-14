@@ -475,8 +475,10 @@ function openConcert(id) {
     <ul class="concert__people">${people(c)}</ul>
     <p class="eyebrow">${t('program')}</p>
     <ol class="dlg-program">${c.program.map(([comp, work, note]) => `<li><b>${L(comp)}</b><span>${L(work)}</span>${note ? `<small>${L(note)}</small>` : ''}</li>`).join('')}</ol>
-    ${past ? `<span class="concert__past">${t('past')}</span>` : `<a class="btn btn--ink btn--lg" style="--hover-bg:${c.color}" href="${c.tickets}" target="_blank" rel="noopener"><span>${t('tickets')}</span><span class="sr-only"> ${t('newWin')}</span></a>`}`;
+    <div class="dlg-cta">${past ? `<span class="concert__past">${t('past')}</span>` : `<a class="btn btn--ink btn--lg" style="--hover-bg:${c.color}" href="${c.tickets}" target="_blank" rel="noopener"><span>${t('tickets')}</span><span class="sr-only"> ${t('newWin')}</span></a>`}</div>`;
   dlg.showModal();
+  // focus the content (not the close button), so no focus ring flashes on open
+  $('#dlgBody').focus({ preventScroll: true });
   lenis?.stop();
   gsap.from('#dlgBody > *', { y: 24, autoAlpha: 0, stagger: 0.05, duration: 0.8, ease: 'expo.out', delay: 0.1 });
 }

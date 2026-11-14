@@ -358,9 +358,9 @@
   <!-- ============ CONCERT DIALOG ============ -->
   <dialog class="concert-dialog" id="concertDialog" aria-labelledby="dlgTitle">
     <div class="concert-dialog__inner">
-      <button class="concert-dialog__close" type="button" aria-label="סגירה" data-i18n-attr="aria-label:dlg.close" data-close>✕</button>
+      <button class="concert-dialog__close" type="button" aria-label="סגירה" data-i18n-attr="aria-label:dlg.close" data-close><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></button>
       <div class="concert-dialog__media"><img alt="" id="dlgImg" /></div>
-      <div class="concert-dialog__body" id="dlgBody"></div>
+      <div class="concert-dialog__body" id="dlgBody" tabindex="-1"></div>
     </div>
   </dialog>
 
