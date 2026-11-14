@@ -431,7 +431,7 @@ function setupScroll() {
   gsap.fromTo('.subs__visual img', { yPercent: -8, scale: 1.15 }, { yPercent: 8, ease: 'none', scrollTrigger: { trigger: '.subs', start: 'top bottom', end: 'bottom top', scrub: true } });
 
   // Active nav
-  ['about', 'season', 'tickets', 'contact', 'videos'].forEach((id) => {
+  ['about', 'season', 'tickets', 'videos', 'contact'].forEach((id) => {
     ScrollTrigger.create({
       trigger: `#${id}`, start: 'top 50%', end: 'bottom 50%',
       onToggle: (self) => $$(`[data-nav][href="#${id}"]`).forEach((a) => {

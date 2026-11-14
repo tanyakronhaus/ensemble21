@@ -65,8 +65,8 @@
         <li><a href="#about" data-nav data-i18n="nav.about">אודות</a></li>
         <li><a href="#season" data-nav data-i18n="nav.season">העונה ה־36</a></li>
         <li><a href="#tickets" data-nav data-i18n="nav.tickets">כרטיסים</a></li>
-        <li><a href="#contact" data-nav data-i18n="nav.contact">צור קשר</a></li>
         <li><a href="#videos" data-nav data-i18n="nav.videos">ערוץ היוטיוב</a></li>
+        <li><a href="#contact" data-nav data-i18n="nav.contact">צור קשר</a></li>
       </ul>
     </nav>
     <div class="header-tools">
@@ -89,8 +89,8 @@
         <li><a href="#about" data-nav><small>01</small><span data-i18n="nav.about">אודות</span></a></li>
         <li><a href="#season" data-nav><small>02</small><span data-i18n="nav.season">העונה ה־36</span></a></li>
         <li><a href="#tickets" data-nav><small>03</small><span data-i18n="nav.tickets">כרטיסים</span></a></li>
-        <li><a href="#contact" data-nav><small>04</small><span data-i18n="nav.contact">צור קשר</span></a></li>
-        <li><a href="#videos" data-nav><small>05</small><span data-i18n="nav.videos">ערוץ היוטיוב</span></a></li>
+        <li><a href="#videos" data-nav><small>04</small><span data-i18n="nav.videos">ערוץ היוטיוב</span></a></li>
+        <li><a href="#contact" data-nav><small>05</small><span data-i18n="nav.contact">צור קשר</span></a></li>
         <li><a href="/accessibility.html"><small>06</small><span data-i18n="a11y.statement">הצהרת נגישות</span></a></li>
       </ul>
     </nav>
@@ -272,10 +272,25 @@
       </div>
     </section>
 
+    <!-- ============ YOUTUBE ============ -->
+    <section class="videos section" id="videos" aria-labelledby="videosTitle">
+      <div class="section-head">
+        <span class="section-head__no">04</span>
+        <h2 class="section-head__title" id="videosTitle" data-i18n="videos.title">ערוץ היוטיוב</h2>
+        <span class="section-head__line" aria-hidden="true"></span>
+      </div>
+      <p class="videos__lead text" data-reveal data-i18n="videos.lead">קונצרטים, בכורות ורגעים מהבמה — צפו בהקלטות של אנסמבל המאה ה־21 ישירות כאן.</p>
+      <div class="videos__player" id="videoPlayer" data-reveal></div>
+      <ul class="videos__grid" id="videoGrid"></ul>
+      <div class="videos__more">
+        <a class="btn btn--ink btn--lg" href="https://www.youtube.com/channel/UCKnjkzokNy3O1K2ccuJL1PA" target="_blank" rel="noopener" data-i18n="videos.channel"><span>לצפייה בערוץ ביוטיוב</span><span class="sr-only"> (נפתח בחלון חדש)</span></a>
+      </div>
+    </section>
+
     <!-- ============ CONTACT ============ -->
     <section class="contact section" id="contact" aria-labelledby="contactTitle">
       <div class="section-head section-head--light">
-        <span class="section-head__no">04</span>
+        <span class="section-head__no">05</span>
         <h2 class="section-head__title" id="contactTitle" data-i18n="contact.title">צור קשר</h2>
         <span class="section-head__line" aria-hidden="true"></span>
       </div>
@@ -328,20 +343,6 @@
       </div>
     </section>
 
-    <!-- ============ YOUTUBE ============ -->
-    <section class="videos section" id="videos" aria-labelledby="videosTitle">
-      <div class="section-head">
-        <span class="section-head__no">05</span>
-        <h2 class="section-head__title" id="videosTitle" data-i18n="videos.title">ערוץ היוטיוב</h2>
-        <span class="section-head__line" aria-hidden="true"></span>
-      </div>
-      <div class="videos__top" data-reveal>
-        <p class="videos__lead text" data-i18n="videos.lead">קונצרטים, בכורות ורגעים מהבמה — צפו בהקלטות של אנסמבל המאה ה־21 ישירות כאן.</p>
-        <a class="btn btn--line" href="https://www.youtube.com/channel/UCKnjkzokNy3O1K2ccuJL1PA" target="_blank" rel="noopener" data-i18n="videos.channel"><span>לערוץ ביוטיוב</span><span class="sr-only"> (נפתח בחלון חדש)</span></a>
-      </div>
-      <div class="videos__player" id="videoPlayer" data-reveal></div>
-      <ul class="videos__grid" id="videoGrid"></ul>
-    </section>
   </main>
 
   <!-- ============ FOOTER ============ -->
@@ -355,8 +356,8 @@
         <a href="#about" data-i18n="nav.about">אודות</a>
         <a href="#season" data-i18n="nav.season">העונה ה־36</a>
         <a href="#tickets" data-i18n="nav.tickets">כרטיסים</a>
-        <a href="#contact" data-i18n="nav.contact">צור קשר</a>
         <a href="#videos" data-i18n="nav.videos">ערוץ היוטיוב</a>
+        <a href="#contact" data-i18n="nav.contact">צור קשר</a>
         <a href="/accessibility.html" data-i18n="a11y.statement">הצהרת נגישות</a>
         <button type="button" class="footer__lang" data-lang-toggle><span data-i18n="lang.switch">EN</span></button>
       </nav>

@@ -24,7 +24,7 @@ export const EN = {
   'nav.videos': 'YouTube',
   'videos.title': 'YouTube Channel',
   'videos.lead': 'Concerts, premieres and moments from the stage — watch recordings of the Israel Contemporary Players right here.',
-  'videos.channel': '<span>Open the channel on YouTube</span><span class="sr-only"> (opens in a new window)</span>',
+  'videos.channel': '<span>Watch the channel on YouTube</span><span class="sr-only"> (opens in a new window)</span>',
   'menu.label': 'Mobile menu',
   'sound.label': 'Sound',
   'hero.eyebrow': 'Israel Contemporary Players · since 1991',
