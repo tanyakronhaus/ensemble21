@@ -518,7 +518,9 @@ function openConcert(id) {
     <ul class="concert__people">${people(c)}</ul>
     <p class="eyebrow">${t('program')}</p>
     <ol class="dlg-program">${c.program.map(([comp, work, note]) => `<li><b>${L(comp)}</b><span>${L(work)}</span>${note ? `<small>${L(note)}</small>` : ''}</li>`).join('')}</ol>
-    <div class="dlg-cta">${past ? `<span class="concert__past">${t('past')}</span>` : `<a class="btn btn--ink btn--lg" style="--hover-bg:${c.color}" href="${c.tickets}" target="_blank" rel="noopener"><span>${t('tickets')}</span><span class="sr-only"> ${t('newWin')}</span></a>`}</div>`;
+    `;
+  $('#dlgCta').innerHTML = past ? `<span class="concert__past">${t('past')}</span>` : `<a class="btn btn--ink btn--lg" style="--hover-bg:${c.color}" href="${c.tickets}" target="_blank" rel="noopener"><span>${t('tickets')}</span><span class="sr-only"> ${t('newWin')}</span></a>`;
+  $('#dlgBody').scrollTop = 0;
   dlg.showModal();
   // focus the content (not the close button), so no focus ring flashes on open
   $('#dlgBody').focus({ preventScroll: true });
