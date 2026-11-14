@@ -869,3 +869,33 @@ html[lang='en'] .mobile-menu { clip-path: circle(0 at 40px 38px); }
 .videos__lead, .videos__player, .videos__grid { max-width: min(1100px, calc((100svh - var(--header-h) - 190px) * 16 / 9)); }
 .videos__more { display: flex; justify-content: center; margin-top: 30px; }
 @media (max-width: 760px) { .videos__lead, .videos__player, .videos__grid { max-width: none; } }
+
+/* mobile menu footer: round contact buttons + small accessibility link */
+.mobile-menu__foot { flex-direction: row; align-items: center; justify-content: space-between; gap: 16px; opacity: 1; }
+.mobile-menu__btns { display: flex; gap: 12px; }
+.mobile-menu__btns .cbtn { width: 56px; height: 56px; }
+.mobile-menu__btns .cbtn svg { width: 26px; height: 26px; }
+.mobile-menu__a11y { font-size: .85rem; opacity: .65; text-decoration: underline !important; text-underline-offset: 3px; }
+
+/* concert dialog on phones: text block + ticket button sit at the bottom, poster fills the rest */
+@media (max-width: 760px) {
+  .concert-dialog__inner { display: flex; flex-direction: column; overflow-y: auto; }
+  .concert-dialog__media { flex: 1 1 0; min-height: 22dvh; height: auto; padding: 12px 12px 0; }
+  .concert-dialog__media img { height: 100%; width: auto; max-width: 100%; }
+  .concert-dialog__body { flex: none; overflow: visible; padding-bottom: max(14px, env(safe-area-inset-bottom)); }
+  .dlg-cta { position: static; background: none; padding-top: 6px; }
+}
+@media (max-width: 760px) and (max-height: 620px) {
+  .concert-dialog__media { min-height: 12dvh; padding-top: 8px; }
+  .concert-dialog__body { padding-top: 8px; }
+  .concert-dialog__body .concert__title { font-size: 1.3rem; }
+  .concert-dialog__body .concert__when { font-size: .74rem; }
+  .concert-dialog__body .concert__people li span { font-size: .7rem; }
+  .concert-dialog__body .concert__people b { font-size: .88rem; }
+  .dlg-program li { padding: 4px 0; }
+  .dlg-program b, .dlg-program span { font-size: .84rem; }
+  .dlg-program small { font-size: .7rem; }
+  .dlg-cta .btn { padding: .7em 1em; }
+}
+/* keep the menu footer clear of the round accessibility button */
+.mobile-menu { padding-bottom: calc(96px + env(safe-area-inset-bottom)); }
